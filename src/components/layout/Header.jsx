@@ -3,6 +3,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import PerfilDropdown from "./PerfilDropdown";
+import ModalLogout from "../shared/ModalLogout";
 import api from "../../api/api";
 import { useState } from "react";
 
@@ -70,7 +71,7 @@ export default function Header({ nomeSala = "", exibirSala = true }) {
 
             {mostrarDropdown && (
               <div className="absolute top-14 right-0">
-                <PerfilDropdown />
+                <PerfilDropdown onClose={() => setMostrarDropdown(false)}/>
               </div>
             )}
 
@@ -92,47 +93,15 @@ export default function Header({ nomeSala = "", exibirSala = true }) {
         )}
       </div>
 
-      {/* Modal de logout */}
-      <AnimatePresence>
-        {mostrarModalLogout && (
-          <motion.div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setMostrarModalLogout(false)}
-          >
-            <motion.div
-              onClick={(e) => e.stopPropagation()}
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-              className="bg-gray-800 p-6 rounded-xl w-full max-w-sm text-white shadow-2xl"
-            >
-              <h2 className="text-2xl font-bold mb-4 text-indigo-300 text-center">
-                Deseja sair?
-              </h2>
-              <p className="text-center text-gray-300 mb-6">
-                Você será desconectado do sistema.
-              </p>
-              <div className="flex justify-center gap-4 ">
-                <button
-                  onClick={() => setMostrarModalLogout(false)}
-                  className="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded text-white"
-                >
-                  Cancelar
-                </button>
-                <button
-                  onClick={logout}
-                  className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded text-white font-semibold"
-                >
-                  Sair
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          <AnimatePresence>
+                  {mostrarModalLogout && (
+                <ModalLogout
+                onCancel={() => setMostrarModalLogout(false)}
+                onConfirm={logout}
+              />
+            )}
+        </AnimatePresence>
+
     </header>
   );
 }
