@@ -1,7 +1,8 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import PerfilDropdown from "./PerfilDropdown";
+import api from "../api/api";
+import { useState } from "react";
 
 export default function Header({ nomeSala = "", exibirSala = true }) {
   const navigate = useNavigate();
@@ -12,7 +13,23 @@ export default function Header({ nomeSala = "", exibirSala = true }) {
   const logout = () => {
     if (confirm("Você realmente deseja sair?")) {
       localStorage.clear();
-      navigate("/telaInicial");
+      navigate("/TelaInicial");
+    }
+  };
+
+  const handleClickLogo = async () => {
+    if (!isLogado) {
+      navigate("/");
+      return;
+    }
+
+    try {
+      const response = await api.get("/sala/aluno");
+      if (response.data) {
+        navigate("/aluno/sala");
+      }
+    } catch (error) {
+      navigate("/aluno/entrar");
     }
   };
 
@@ -20,7 +37,7 @@ export default function Header({ nomeSala = "", exibirSala = true }) {
     <header className="flex items-center justify-between px-10 py-6 border-b border-gray-800 bg-gray-950 shadow-md">
       <h1
         className="text-5xl font-extrabold text-indigo-300 tracking-wide cursor-pointer"
-        onClick={() => navigate("/")}
+        onClick={handleClickLogo}
       >
         ClassUP
       </h1>
@@ -32,7 +49,7 @@ export default function Header({ nomeSala = "", exibirSala = true }) {
       )}
 
       <div className="flex items-center gap-6 relative">
-        {isLogado && (
+        {isLogado ? (
           <>
             <button
               onClick={() => setMostrarDropdown(!mostrarDropdown)}
@@ -48,19 +65,27 @@ export default function Header({ nomeSala = "", exibirSala = true }) {
                 <FaUserCircle />
               )}
             </button>
+
             {mostrarDropdown && (
-                <div className="absolute top-14 right-0">
-                    <PerfilDropdown />
-                </div>
-                )}
+              <div className="absolute top-14 right-0">
+                <PerfilDropdown />
+              </div>
+            )}
 
             <button
               onClick={logout}
-              className="text-lg text-red-400 hover:text-red-500 hover:underline transition duration-200"
+              className="text-lg text-red-400 hover:text-red-600 transition"
             >
               Sair
             </button>
           </>
+        ) : (
+          <button
+            onClick={() => navigate("/sobre")}
+            className="text-xl text-indigo-300 hover:text-white transition"
+          >
+            <strong>Quem somos</strong>
+          </button>
         )}
       </div>
     </header>
