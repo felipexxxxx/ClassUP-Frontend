@@ -1,76 +1,23 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import api from "../api/api";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Header from "../components/layout/Header";
+import Footer from "../components/layout/Footer";
+import usePerfil from "../hooks/usePerfil";
 
 export default function TelaPerfil() {
-  const [perfil, setPerfil] = useState({});
-  const [mostraEmail, setMostraEmail] = useState(false);
-  const [mostraSenha, setMostraSenha] = useState(false);
-  const [mensagemSucesso, setMensagemSucesso] = useState("");
-  const [erroEmail, setErroEmail] = useState("");
-  const [erroSenha, setErroSenha] = useState("");
-
-  useEffect(() => {
-    carregarPerfil();
-  }, []);
-
-  useEffect(() => {
-    if (mensagemSucesso) {
-      const timer = setTimeout(() => setMensagemSucesso(""), 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [mensagemSucesso]);
-
-  const carregarPerfil = async () => {
-    const res = await api.get("/user");
-    setPerfil(res.data);
-  };
-
-  const atualizarEmail = async (novoEmail) => {
-    try {
-      await api.put("/user/email", { novoEmail });
-      setMensagemSucesso("Email atualizado com sucesso!");
-      setErroEmail("");
-      setMostraEmail(false);
-      carregarPerfil();
-    } catch (err) {
-      if (err.response?.status === 400) {
-        setErroEmail("Este e-mail já está em uso.");
-      } else {
-        setErroEmail("Erro ao atualizar email. Tente novamente.");
-      }
-    }
-  };
-
-  const atualizarSenha = async (senhaAtual, novaSenha) => {
-    if (novaSenha.length < 8) {
-      setErroSenha("A nova senha deve ter no mínimo 8 caracteres.");
-      return;
-    }
-    try {
-      await api.put("/user/senha", { senhaAtual, novaSenha });
-      setMensagemSucesso("Senha atualizada com sucesso!");
-      setErroSenha("");
-      setMostraSenha(false);
-    } catch (err) {
-      if (err.response?.status === 401) {
-        setErroSenha("Senha atual incorreta.");
-      } else {
-        setErroSenha("Erro ao atualizar senha. Tente novamente.");
-      }
-    }
-  };
-
-  const atualizarFoto = (file) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      localStorage.setItem("fotoPerfil", reader.result);
-      setMensagemSucesso("Foto de perfil atualizada com sucesso!");
-    };
-    reader.readAsDataURL(file);
-  };
+  const {
+    perfil,
+    mostraEmail,
+    mostraSenha,
+    mensagemSucesso,
+    erroEmail,
+    erroSenha,
+    setMostraEmail,
+    setMostraSenha,
+    atualizarEmail,
+    atualizarSenha,
+    atualizarFoto,
+  } = usePerfil();
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-900 text-white">
@@ -81,17 +28,21 @@ export default function TelaPerfil() {
           Meu Perfil
         </h2>
 
-        {mensagemSucesso && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="mb-6 bg-green-700 text-white text-center py-2 px-4 rounded shadow"
-          >
-            {mensagemSucesso}
-          </motion.div>
-        )}
+        {/* Alerta de sucesso */}
+        <AnimatePresence>
+          {mensagemSucesso && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="mb-6 bg-green-700 text-white text-center py-2 px-4 rounded shadow"
+            >
+              {mensagemSucesso}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
+        {/* Foto de perfil */}
         <div className="flex flex-col items-center mb-10 relative group">
           <label htmlFor="fotoPerfil" className="relative cursor-pointer group">
             <img
@@ -113,6 +64,7 @@ export default function TelaPerfil() {
           <p className="text-sm text-gray-400 mt-2">Clique na foto para alterar</p>
         </div>
 
+        {/* Informações do usuário */}
         <div className="bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
           <p className="text-xl mb-2">
             <strong className="text-white">Nome:</strong> {perfil.nomeCompleto}
@@ -139,7 +91,7 @@ export default function TelaPerfil() {
           </button>
         </div>
 
-        {/* Modal Email */}
+        {/* Modal Alterar Email */}
         <AnimatePresence>
           {mostraEmail && (
             <motion.div
@@ -170,7 +122,6 @@ export default function TelaPerfil() {
                   className="w-full p-2 mb-4 rounded bg-gray-700 border border-gray-600 text-white"
                 />
                 {erroEmail && <p className="text-red-400 text-sm mb-3">{erroEmail}</p>}
-
                 <button
                   type="submit"
                   className="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded text-white font-semibold w-full"
@@ -182,7 +133,7 @@ export default function TelaPerfil() {
           )}
         </AnimatePresence>
 
-        {/* Modal Senha */}
+        {/* Modal Redefinir Senha */}
         <AnimatePresence>
           {mostraSenha && (
             <motion.div
@@ -222,7 +173,6 @@ export default function TelaPerfil() {
                   className="w-full p-2 mb-4 rounded bg-gray-700 border border-gray-600 text-white"
                 />
                 {erroSenha && <p className="text-red-400 text-sm mb-3">{erroSenha}</p>}
-
                 <button
                   type="submit"
                   className="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded text-white font-semibold w-full"

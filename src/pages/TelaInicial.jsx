@@ -1,28 +1,15 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Header from "../components/layout/Header";
+import Footer from "../components/layout/Footer";
 
 export default function TelaInicial() {
   const navigate = useNavigate();
 
-  const isLogado = !!localStorage.getItem("token");
-
   return (
     <div className="min-h-screen flex flex-col justify-between bg-gray-900 text-white">
-      <Header
-        titulo="ClassUP"
-        acoesExtra={
-          !isLogado
-            ? [
-                {
-                  label: "Quem Somos",
-                  onClick: () => navigate("/sobre"),
-                },
-              ]
-            : []
-        }
-      />
+      <Header />
 
       <main className="flex flex-col items-center justify-center flex-grow px-6 text-center">
         <motion.h1
