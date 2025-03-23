@@ -1,22 +1,28 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export default function TelaInicial() {
   const navigate = useNavigate();
 
+  const isLogado = !!localStorage.getItem("token");
+
   return (
     <div className="min-h-screen flex flex-col justify-between bg-gray-900 text-white">
-      <header className="flex justify-between items-center px-6 py-4 border-b border-gray-800">
-        <h1 className="text-4xl font-bold text-indigo-300">ClassUP</h1>
-        <nav>
-          <button
-            onClick={() => navigate("/sobre")}
-            className="text-2xl text-gray-300 hover:text-white transition-colors duration-200"
-          >
-            Quem Somos
-          </button>
-        </nav>
-      </header>
+      <Header
+        titulo="ClassUP"
+        acoesExtra={
+          !isLogado
+            ? [
+                {
+                  label: "Quem Somos",
+                  onClick: () => navigate("/sobre"),
+                },
+              ]
+            : []
+        }
+      />
 
       <main className="flex flex-col items-center justify-center flex-grow px-6 text-center">
         <motion.h1
@@ -46,9 +52,7 @@ export default function TelaInicial() {
         </motion.button>
       </main>
 
-      <footer className="text-center py-4 text-lg text-gray-400 border-t border-gray-700">
-        © {new Date().getFullYear()} ClassUP. Todos os direitos reservados.
-      </footer>
+      <Footer />
     </div>
   );
 }

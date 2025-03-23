@@ -1,21 +1,23 @@
 import { motion } from "framer-motion";
 import { FaLinkedin, FaInstagram } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import imagemFelipe from "../assets/imagem-felipe.jpg";
 
 export default function TelaQuemSomos() {
-  const navigate = useNavigate();
-
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col">
-      <header className="flex justify-between items-center px-6 py-4 border-b border-gray-800">
-        <h1 className="text-4xl font-bold text-indigo-300 cursor-pointer" onClick={() => navigate("/")}>
-          ClassUP
-        </h1>
-      </header>
+      <Header
+        titulo="ClassUP"
+        acoesExtra={[]} // Sem ações extras aqui
+        exibirSala={false} // Não mostrar nome da sala
+        mostrarPerfil={false} // Esconde o botão de perfil/logout
+        onTituloClick={() => window.location.href = "/"} // Volta para tela inicial
+      />
 
       <main className="flex flex-col md:flex-row items-center justify-center flex-grow px-8 py-12 gap-12">
         <motion.img
-          src="src/assets/imagem-felipe.jpg" 
+          src={imagemFelipe}
           alt="Foto do criador"
           className="w-80 h-80 object-cover rounded-full border-4 border-indigo-500 shadow-lg"
           initial={{ opacity: 0, scale: 0.9 }}
@@ -40,23 +42,33 @@ export default function TelaQuemSomos() {
           </p>
 
           <div className="flex gap-4 mt-6">
-            <a href="https://www.linkedin.com/in/felipeplins/" target="_blank" className="text-gray-400 hover:text-indigo-400 text-4xl" aria-label="LinkedIn">
+            <a
+              href="https://www.linkedin.com/in/felipeplins/"
+              target="_blank"
+              rel="noreferrer"
+              className="text-gray-400 hover:text-indigo-400 text-4xl"
+              aria-label="LinkedIn"
+            >
               <FaLinkedin />
             </a>
-            <a href="https://www.instagram.com/felipeplins/" target="_blank" className="text-gray-400 hover:text-pink-500 text-4xl" aria-label="Instagram">
+            <a
+              href="https://www.instagram.com/felipeplins/"
+              target="_blank"
+              rel="noreferrer"
+              className="text-gray-400 hover:text-pink-500 text-4xl"
+              aria-label="Instagram"
+            >
               <FaInstagram />
             </a>
           </div>
 
           <p className="mt-3 text-md text-gray-400">
-          Email para contato: <span className="text-indigo-300">contato@classup.com</span>
-        </p>
+            Email para contato: <span className="text-indigo-300">contato@classup.com</span>
+          </p>
         </motion.div>
       </main>
 
-      <footer className="text-center py-4 border-t border-gray-800 text-sm text-gray-500">
-        © {new Date().getFullYear()} ClassUP. Todos os direitos reservados.
-      </footer>
+      <Footer />
     </div>
   );
 }
