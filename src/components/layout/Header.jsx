@@ -39,14 +39,14 @@ export default function Header({ nomeSala = "", exibirSala = true }) {
   return (
     <header className="flex items-center justify-between px-10 py-6 border-b border-gray-800 bg-gray-950 shadow-md">
       <h1
-        className="text-5xl font-extrabold text-indigo-300 tracking-wide cursor-pointer"
+        className="text-5xl font-extrabold text-indigo-300 tracking-wide cursor-pointer hover:text-indigo-100 transition duration-200"
         onClick={handleClickLogo}
       >
         ClassUP
       </h1>
 
       {exibirSala && (
-        <div className="text-2xl font-semibold text-white flex-1 text-center -ml-20">
+        <div className="absolute left-1/2 transform -translate-x-1/2 text-2xl font-semibold text-white">
           {nomeSala}
         </div>
       )}

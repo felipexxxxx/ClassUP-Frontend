@@ -31,7 +31,7 @@ export default function TelaInicial() {
 
         <motion.button
           onClick={() => navigate("/login")}
-          className="bg-indigo-600 hover:bg-indigo-700 transition-all duration-300 text-white font-semibold py-3 px-8 rounded-full shadow-md text-2xl"
+          className="bg-indigo-600 hover:bg-indigo-700 transition-all duration-300 text-white font-semibold py-4 px-12 rounded-full shadow-md text-2xl"
           whileTap={{ scale: 0.95 }}
           whileHover={{ scale: 1.05 }}
         >
