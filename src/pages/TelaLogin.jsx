@@ -36,7 +36,7 @@ export default function TelaLogin() {
         transition={{ duration: 0.5 }}
       >
         <h1 className="text-9xl font-bold text-indigo-300">ClassUP</h1>
-        <p className="text-3xl mt-4 text-gray-300">Sistema Educacional</p>
+        <p className="text-3xl mt-4 text-gray-300">Facilitando o aprendizado😊</p>
       </motion.div>
 
       {/* Lado direito */}
