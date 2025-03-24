@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser, buscarSalaAluno } from "../services/authService";
+import { loginUser, buscarSalaAluno, logoutUsuario } from "../services/authService";
 import jwtDecode from "jwt-decode";
 
 export default function useAuth() {
@@ -60,10 +60,26 @@ export default function useAuth() {
     }
   };
 
+  const logout = async () => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      try {
+        await logoutUsuario(token); // usando o service!
+      } catch (err) {
+        console.warn("Erro ao deslogar no backend:", err);
+      }
+    }
+
+    localStorage.clear();
+    navigate("/TelaInicial");
+  };
+
   return {
     mensagem,
     sucesso,
     carregandoRedirect,
     realizarLogin,
+    logout,
   };
 }
