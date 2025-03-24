@@ -1,9 +1,9 @@
-// src/hooks/useAlunoSala.js
 import { useState, useEffect } from "react";
 import {
   buscarPerfil,
   buscarAtividades,
   buscarColegas,
+  buscarAvisos,
   confirmarPresencaAtividade,
   cancelarPresencaAtividade
 } from "../services/alunoService";
@@ -11,9 +11,12 @@ import {
 export default function useAlunoSala() {
   const [perfil, setPerfil] = useState({});
   const [atividades, setAtividades] = useState([]);
+  const [avisos, setAvisos] = useState([]); // <-- AVISOS como array
   const [colegas, setColegas] = useState([]);
   const [mensagemSucesso, setMensagemSucesso] = useState("");
   const [atividadeSelecionada, setAtividadeSelecionada] = useState(null);
+  const [avisoSelecionado, setAvisoSelecionado] = useState(null);
+
   const [nomeSala, setNomeSala] = useState("");
 
   useEffect(() => {
@@ -21,14 +24,16 @@ export default function useAlunoSala() {
   }, []);
 
   const carregarTudo = async () => {
-    const [perfilData, atividadesData, salaData] = await Promise.all([
+    const [perfilData, atividadesData, salaData, avisosData] = await Promise.all([
       buscarPerfil(),
       buscarAtividades(),
-      buscarColegas()
+      buscarColegas(),
+      buscarAvisos()
     ]);
 
     setPerfil(perfilData);
     setAtividades(atividadesData);
+    setAvisos(avisosData); // <-- SETA AVISOS
     setColegas([salaData.professor, ...salaData.alunos]);
     setNomeSala(salaData.nome);
   };
@@ -54,10 +59,13 @@ export default function useAlunoSala() {
     perfil,
     nomeSala,
     atividades,
+    avisoSelecionado,
+    avisos,
     colegas,
     mensagemSucesso,
     atividadeSelecionada,
     setAtividadeSelecionada,
+    setAvisoSelecionado,
     confirmarPresenca,
     cancelarPresenca
   };

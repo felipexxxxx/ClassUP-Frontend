@@ -27,3 +27,9 @@ export async function confirmarPresencaAtividade(id) {
 export async function cancelarPresencaAtividade(id) {
   await api.put(`/sala/atividades/${id}/cancelar`);
 }
+
+// Busca os avisos da sala
+export async function buscarAvisos() {
+  const res = await api.get("/sala/avisos");
+  return res.data;
+}
