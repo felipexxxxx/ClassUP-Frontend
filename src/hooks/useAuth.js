@@ -48,7 +48,14 @@ export default function useAuth() {
         }
       }, 2000);
     } catch (err) {
-      setMensagem("Login inválido. Verifique seus dados.");
+      if (
+        err.message?.includes("Network Error") ||
+        err.message?.includes("ERR_CONNECTION_REFUSED")
+      ) {
+        setMensagem("Erro de conexão. Verifique se o servidor e o banco de dados estão funcionando.");
+      } else {
+        setMensagem("Login inválido. Verifique seus dados.");
+      }
       setSucesso(false);
     }
   };
