@@ -8,7 +8,7 @@ export default function CardAtividade({ atividade, onClick }) {
     >
       <h3 className="text-3xl font-bold text-indigo-300 mb-2">
         {atividade.titulo}
-        <span className="text-base text-gray-400 ml-2">
+        <span className="text-xl text-base text-gray-400 ml-2">
           ({formatarData(atividade.data)})
         </span>
       </h3>
@@ -19,9 +19,18 @@ export default function CardAtividade({ atividade, onClick }) {
 
       <p>
         <span className="font-semibold text-gray-400">Status:</span>{" "}
-        <span className="text-indigo-200 font-semibold">
-          {atividade.status || "Desconhecido"}
-        </span>
+        <span
+            className={`font-semibold ${
+              atividade.status === "CONFIRMADO"
+                ? "text-green-400"
+                : atividade.status === "CANCELADO"
+                ? "text-red-400"
+                : "text-indigo-200"
+            }`}
+          >
+            {atividade.status}
+          </span>
+
       </p>
     </div>
   );

@@ -4,6 +4,7 @@ import { FiLogOut } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import PerfilDropdown from "./PerfilDropdown";
 import ModalLogout from "../shared/ModalLogout";
+import useAuth from "../../hooks/useAuth"
 import api from "../../api/api";
 import { useState } from "react";
 
@@ -11,6 +12,7 @@ export default function Header({ nomeSala = "", exibirSala = true }) {
   const navigate = useNavigate();
   const [mostrarDropdown, setMostrarDropdown] = useState(false);
   const [mostrarModalLogout, setMostrarModalLogout] = useState(false);
+  const {logout} = useAuth();
 
   const isLogado = !!localStorage.getItem("token");
 
@@ -30,11 +32,10 @@ export default function Header({ nomeSala = "", exibirSala = true }) {
     }
   };
 
-  const logout = () => {
-    localStorage.clear();
-    setMostrarModalLogout(false);
-    navigate("/TelaInicial");
-  };
+  <ModalLogout
+  onCancel={() => setMostrarModalLogout(false)}
+  onConfirm={logout}
+/>
 
   return (
     <header className="flex items-center justify-between px-10 py-6 border-b border-gray-800 bg-gray-950 shadow-md">

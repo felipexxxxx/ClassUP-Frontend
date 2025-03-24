@@ -30,7 +30,7 @@ export default function ModalDetalheAtividade({
           {atividade.titulo}
         </h2>
 
-        <p className="text-sm text-gray-400 mb-2">
+        <p className="text-md text-gray-400 mb-2">
           {formatarData(atividade.data)}
         </p>
 

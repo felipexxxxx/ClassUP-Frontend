@@ -5,6 +5,9 @@ import TelaAluno from "./pages/TelaAlunoSala";
 import TelaAcessoSala from "./pages/TelaAcessoSala";
 import TelaQuemSomos from "./pages/TelaQuemSomos";
 import TelaPerfil from "./pages/TelaPerfil";
+import TelaHistorico from "./pages/TelaHistorico";
+import TelaHistoricoDetalhes from "./pages/TelaHistoricoSala";
+
 
 
 function App() {
@@ -16,6 +19,8 @@ function App() {
       <Route path="/aluno/sala" element={<TelaAluno />} />
       <Route path="/aluno/entrar" element={<TelaAcessoSala />} />
       <Route path="/perfil" element={<TelaPerfil />} />
+      <Route path="/historico" element={<TelaHistorico />} />
+      <Route path="/historico/:id" element={<TelaHistoricoDetalhes />} />
       <Route path="/" element={<Navigate to="/TelaInicial" />} />
     </Routes>
   );
