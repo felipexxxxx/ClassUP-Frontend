@@ -7,7 +7,7 @@ export default function CardHistorico({ historico }) {
 
   return (
     <motion.div
-      onClick={() => navigate(`/historico/${historico.id}`)}
+      onClick={() => navigate(`/historico/${historico.sala.id}`)}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       className="cursor-pointer bg-gray-800 px-6 py-6 rounded-2xl shadow-xl hover:shadow-indigo-500/10 transition-all flex flex-col justify-between min-h-[140px]"

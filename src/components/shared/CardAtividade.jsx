@@ -4,8 +4,9 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 export default function CardAtividade({
   atividade,
   onClick,
-  isProfessor,
+  onEdit,
   onDelete,
+  isProfessor,
   modoSomenteLeitura = false,
 }) {
   const dataFormatada = atividade.data
@@ -22,16 +23,11 @@ export default function CardAtividade({
         <span className="text-xl text-gray-400 ml-2">({dataFormatada})</span>
       </h3>
 
-      <p className="text-xl text-gray-300 mb-2">
-        {atividade.descricao || "Sem descrição."}
-      </p>
-
       <p className="text-lg text-indigo-300 mb-3">
         📍 <span className="font-medium text-white">Local:</span>{" "}
         {atividade.local || "Não informado"}
       </p>
 
-      {/* Mostrar status apenas se não for leitura e não for professor */}
       {!modoSomenteLeitura && !isProfessor && (
         <p>
           <span className="text-lg text-white font-semibold text-gray-400">
@@ -51,10 +47,13 @@ export default function CardAtividade({
         </p>
       )}
 
-      {/* Mostrar ícones apenas se for professor e não estiver em modo leitura */}
       {isProfessor && !modoSomenteLeitura && (
-        <div className="absolute top-4 right-4 flex gap-3 z-10">
+        <div
+          className="absolute top-4 right-4 flex gap-3 z-10"
+          onClick={(e) => e.stopPropagation()} // impede que o clique nos ícones abra o modal de detalhes
+        >
           <button
+            onClick={onEdit}
             title="Editar"
             className="text-yellow-400 hover:text-yellow-200 text-lg"
           >

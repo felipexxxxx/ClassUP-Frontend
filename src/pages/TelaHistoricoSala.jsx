@@ -48,12 +48,12 @@ export default function TelaHistoricoSala() {
       <Header nomeSala={nomeSala} />
       <TabsAluno tabs={tabs} abaAtiva={abaAtiva} onChange={setAbaAtiva} />
 
-      <main className="flex-grow p-10 max-w-2xl w-full mx-auto">
+      <main className="flex-grow p-10 max-w-6xl w-full mx-auto">
         <AnimacaoEntrada key={abaAtiva}>
           {abaAtiva === "atividades" && (
             <>
               <h2 className="text-5xl font-bold text-indigo-300 mb-8">Atividades</h2>
-              <section className="grid gap-8">
+              <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {atividades.length === 0 ? (
                   <p className="text-2xl text-indigo-200">Nenhuma atividade encontrada.</p>
                 ) : (

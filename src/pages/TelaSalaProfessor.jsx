@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import { AnimatePresence } from "framer-motion";
@@ -10,23 +10,33 @@ import ModalDetalheAviso from "../components/shared/ModalDetalheAviso";
 import CardAviso from "../components/shared/CardAviso";
 import AnimacaoEntrada from "../components/shared/AnimacaoEntrada";
 import useSalaProfessor from "../hooks/useSalaProfessor";
+import ModalCriarAtividade from "../components/modals/ModalCriarAtividade";
+import ModalEditarAtividade from "../components/modals/ModalEditarAtividade";
+import ModalConfirmarExclusao from "../components/modals/ModalConfirmarExclusao";
 import { FaTrash } from "react-icons/fa";
-
 
 export default function TelaSalaProfessor() {
   const {
     dados,
+    atualizarSala,
     mensagemSucesso,
+    setMensagemSucesso,
     atividadeSelecionada,
     setAtividadeSelecionada,
     avisoSelecionado,
     setAvisoSelecionado,
+    editarAtividade,
     excluirAtividade,
     excluirAviso,
     removerAluno,
     abaAtiva,
     setAbaAtiva,
+    carregando,
   } = useSalaProfessor();
+
+  const [mostrarModalCriarAtividade, setMostrarModalCriarAtividade] = useState(false);
+  const [atividadeEditando, setAtividadeEditando] = useState(null);
+  const [atividadeExcluindo, setAtividadeExcluindo] = useState(null);
 
   const tabs = [
     { id: "atividades", label: "Atividades" },
@@ -50,7 +60,7 @@ export default function TelaSalaProfessor() {
 
       <TabsAluno tabs={tabs} abaAtiva={abaAtiva} onChange={setAbaAtiva} />
 
-      <main className="flex-grow p-10 max-w-2xl w-full mx-auto">
+      <main className="flex-grow p-10 max-w-6xl w-full mx-auto">
         <AnimatePresence>
           {mensagemSucesso && (
             <AlertaMensagem mensagem={mensagemSucesso} tipo="sucesso" />
@@ -60,8 +70,16 @@ export default function TelaSalaProfessor() {
         <AnimatePresence mode="wait">
           {abaAtiva === "atividades" && (
             <AnimacaoEntrada key="atividades">
-              <h2 className="text-5xl font-bold text-indigo-300 mb-8">Atividades</h2>
-              <section className="grid gap-8">
+              <div className="flex justify-between items-center mb-8">
+                <h2 className="text-5xl font-bold text-indigo-300">Atividades</h2>
+                <button
+                  onClick={() => setMostrarModalCriarAtividade(true)}
+                  className="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-5 py-2 rounded-xl transition duration-200"
+                >
+                  + Criar Atividade
+                </button>
+              </div>
+              <section className="grid sm:grid-cols-2 gap-6">
                 {atividades.length === 0 ? (
                   <p className="text-xl text-indigo-200">Nenhuma atividade encontrada.</p>
                 ) : (
@@ -70,8 +88,9 @@ export default function TelaSalaProfessor() {
                       key={atividade.id}
                       atividade={atividade}
                       isProfessor
-                      onDelete={() => excluirAtividade?.(atividade.id)}
                       onClick={() => setAtividadeSelecionada(atividade)}
+                      onEdit={() => setAtividadeEditando(atividade)}
+                      onDelete={() => setAtividadeExcluindo(atividade)}
                     />
                   ))
                 )}
@@ -85,6 +104,36 @@ export default function TelaSalaProfessor() {
                   />
                 )}
               </AnimatePresence>
+              {mostrarModalCriarAtividade && (
+                <ModalCriarAtividade
+                  onClose={() => setMostrarModalCriarAtividade(false)}
+                  onSucesso={(mensagem) => {
+                    setMensagemSucesso(mensagem);
+                    setTimeout(() => setMensagemSucesso(null), 3000);
+                    atualizarSala();
+                  }}
+                />
+              )}
+              {atividadeEditando && (
+                <ModalEditarAtividade
+                  atividade={atividadeEditando}
+                  onClose={() => setAtividadeEditando(null)}
+                  onSalvar={editarAtividade}
+                />
+              )}
+              {atividadeExcluindo && (
+                <ModalConfirmarExclusao
+                  titulo="Excluir Atividade"
+                  mensagem={`Deseja realmente excluir a atividade "${atividadeExcluindo.titulo}"?`}
+                  onClose={() => setAtividadeExcluindo(null)}
+                  onConfirm={() => {
+                    excluirAtividade(atividadeExcluindo.id);
+                    setMensagemSucesso("Atividade excluída com sucesso!");
+                    setTimeout(() => setMensagemSucesso(null), 3000);
+                    setAtividadeExcluindo(null);
+                  }}
+                />
+              )}
             </AnimacaoEntrada>
           )}
 
@@ -117,40 +166,39 @@ export default function TelaSalaProfessor() {
             </AnimacaoEntrada>
           )}
 
-            {abaAtiva === "alunos" && (
-              <AnimacaoEntrada key="alunos">
-                <h2 className="text-5xl font-bold text-indigo-300 mb-8">Participantes</h2>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                  <li className="bg-gray-800 px-6 py-6 min-h-[120px] rounded-2xl shadow-md hover:shadow-indigo-500/20 hover:bg-gray-700 hover:scale-[1.02] transition-all duration-200 ease-in-out">
-                    <div className="text-xl font-semibold text-white break-words mb-1">
-                      {professor?.nomeCompleto}
-                    </div>
-                    <div className="text-sm text-indigo-300">Professor(a)</div>
-                  </li>
-                  {colegas.map((pessoa) => (
-                    <li
-                      key={pessoa.id}
-                      className="bg-gray-800 px-6 py-6 min-h-[120px] rounded-2xl shadow-md hover:shadow-indigo-500/20 hover:bg-gray-700 hover:scale-[1.02] transition-all duration-200 ease-in-out flex justify-between items-start"
-                    >
-                      <div className="pr-4">
-                        <div className="text-sm font-semibold text-white break-words mb-1">
-                          {pessoa.nomeCompleto}
-                        </div>
-                        <div className="text-sm text-indigo-300">Aluno(a)</div>
+          {abaAtiva === "alunos" && (
+            <AnimacaoEntrada key="alunos">
+              <h2 className="text-5xl font-bold text-indigo-300 mb-8">Participantes</h2>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <li className="bg-gray-800 px-6 py-6 min-h-[120px] rounded-2xl shadow-md hover:shadow-indigo-500/20 hover:bg-gray-700 hover:scale-[1.02] transition-all duration-200 ease-in-out">
+                  <div className="text-xl font-semibold text-white break-words mb-1">
+                    {professor?.nomeCompleto}
+                  </div>
+                  <div className="text-sm text-indigo-300">Professor(a)</div>
+                </li>
+                {colegas.map((pessoa) => (
+                  <li
+                    key={pessoa.id}
+                    className="bg-gray-800 px-6 py-6 min-h-[120px] rounded-2xl shadow-md hover:shadow-indigo-500/20 hover:bg-gray-700 hover:scale-[1.02] transition-all duration-200 ease-in-out flex justify-between items-start"
+                  >
+                    <div className="pr-4">
+                      <div className="text-sm font-semibold text-white break-words mb-1">
+                        {pessoa.nomeCompleto}
                       </div>
-                      <button
-                        onClick={() => removerAluno(pessoa.id)}
-                        className="text-red-500 hover:text-red-300 text-xl mt-1"
-                        title="Remover aluno"
-                      >
-                        <FaTrash />
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </AnimacaoEntrada>
-            )}
-
+                      <div className="text-sm text-indigo-300">Aluno(a)</div>
+                    </div>
+                    <button
+                      onClick={() => removerAluno(pessoa.id)}
+                      className="text-red-500 hover:text-red-300 text-xl mt-1"
+                      title="Remover aluno"
+                    >
+                      <FaTrash />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </AnimacaoEntrada>
+          )}
         </AnimatePresence>
       </main>
 

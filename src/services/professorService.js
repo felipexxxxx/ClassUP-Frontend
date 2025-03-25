@@ -34,3 +34,31 @@ export async function buscarSalaPorId(salaId) {
   return response.data;
 }
 
+export async function criarAtividade(atividade) {
+  const token = localStorage.getItem("token");
+  const response = await api.post("/sala/atividades", atividade, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+}
+
+
+export const editarAtividadeApi = async (id, dados) => {
+  const token = localStorage.getItem("token");
+  return await api.put(`/sala/atividades/${id}`, dados, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+};
+
+
+export async function deletarAtividadeApi(id) {
+  const token = localStorage.getItem("token");
+  const headers = { Authorization: `Bearer ${token}` };
+
+  return await api.delete(`/sala/atividades/${id}`, { headers });
+}
+
+
+
