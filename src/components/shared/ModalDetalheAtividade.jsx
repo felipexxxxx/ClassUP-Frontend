@@ -7,7 +7,7 @@ export default function ModalDetalheAtividade({
   onConfirmar,
   onCancelar,
   isProfessor = false,
-  modoSomenteLeitura = false,
+  modoSomenteLeitura = false
 }) {
   const dataFormatada = atividade.data
     ? formatarData(atividade.data)
@@ -19,12 +19,8 @@ export default function ModalDetalheAtividade({
     }
   };
 
-  // 🔒 Botões SEMPRE desabilitados se for modo leitura
   const desabilitarBotoes =
     atividade.status !== "PENDENTE" || modoSomenteLeitura;
-
-  // 🔒 Esconder status e botões se modo leitura
-  const exibirControlesDePresenca = !modoSomenteLeitura && !isProfessor;
 
   return (
     <div
@@ -55,52 +51,53 @@ export default function ModalDetalheAtividade({
         </p>
 
         <p className="text-lg text-indigo-300 mb-6">
-          📍 <span className="font-medium text-white">Local:</span> {atividade.local}
+          📍 <span className="font-medium text-white">Local:</span> {atividade.local || "Não informado"}
         </p>
 
-        {/* 🔒 SOMENTE EXIBE status/botões se não estiver em modo somente leitura */}
-        {exibirControlesDePresenca && (
-          <>
-            <div className="mb-6">
-              <span className="text-white font-semibold mr-2">Status presença:</span>
-              <span
-                className={`font-semibold ${
-                  atividade.status === "CONFIRMADO"
-                    ? "text-green-400"
-                    : atividade.status === "CANCELADO"
-                    ? "text-red-400"
-                    : "text-gray-400"
-                }`}
-              >
-                {atividade.status || "PENDENTE"}
-              </span>
-            </div>
+        {/* Mostrar status para alunos */}
+        {!isProfessor && (
+          <div className="mb-6">
+            <span className="text-white font-semibold mr-2">Status presença:</span>
+            <span
+              className={`font-semibold ${
+                atividade.status === "CONFIRMADO"
+                  ? "text-green-400"
+                  : atividade.status === "CANCELADO"
+                  ? "text-red-400"
+                  : "text-gray-400"
+              }`}
+            >
+              {atividade.status || "PENDENTE"}
+            </span>
+          </div>
+        )}
 
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={onConfirmar}
-                disabled={desabilitarBotoes}
-                className={`px-5 py-2 rounded text-white font-medium transition-all ${
-                  desabilitarBotoes
-                    ? "bg-green-900 cursor-not-allowed"
-                    : "bg-green-600 hover:bg-green-500"
-                }`}
-              >
-                Confirmar Presença
-              </button>
-              <button
-                onClick={onCancelar}
-                disabled={desabilitarBotoes}
-                className={`px-5 py-2 rounded text-white font-medium transition-all ${
-                  desabilitarBotoes
-                    ? "bg-red-900 cursor-not-allowed"
-                    : "bg-red-600 hover:bg-red-500"
-                }`}
-              >
-                Cancelar Presença
-              </button>
-            </div>
-          </>
+        {/* Mostrar botões apenas para alunos e se não for modo somente leitura */}
+        {!isProfessor && !modoSomenteLeitura && (
+          <div className="flex justify-center gap-4">
+            <button
+              onClick={onConfirmar}
+              disabled={desabilitarBotoes}
+              className={`px-5 py-2 rounded text-white font-medium transition-all ${
+                desabilitarBotoes
+                  ? "bg-green-900 cursor-not-allowed"
+                  : "bg-green-600 hover:bg-green-500"
+              }`}
+            >
+              Confirmar Presença
+            </button>
+            <button
+              onClick={onCancelar}
+              disabled={desabilitarBotoes}
+              className={`px-5 py-2 rounded text-white font-medium transition-all ${
+                desabilitarBotoes
+                  ? "bg-red-900 cursor-not-allowed"
+                  : "bg-red-600 hover:bg-red-500"
+              }`}
+            >
+              Cancelar Presença
+            </button>
+          </div>
         )}
       </motion.div>
     </div>
