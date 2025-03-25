@@ -16,6 +16,7 @@ export default function useAlunoSala() {
   const [mensagemSucesso, setMensagemSucesso] = useState("");
   const [atividadeSelecionada, setAtividadeSelecionada] = useState(null);
   const [avisoSelecionado, setAvisoSelecionado] = useState(null);
+  
 
   const [nomeSala, setNomeSala] = useState("");
 
@@ -23,6 +24,7 @@ export default function useAlunoSala() {
     carregarTudo();
   }, []);
 
+  
   const carregarTudo = async () => {
     const [perfilData, atividadesData, salaData, avisosData] = await Promise.all([
       buscarPerfil(),
@@ -30,6 +32,19 @@ export default function useAlunoSala() {
       buscarColegas(),
       buscarAvisos()
     ]);
+
+    const exibirMensagem = (msg) => {
+      setMensagemSucesso(msg);
+      setTimeout(() => setMensagemSucesso(""), 2000);
+    };
+  
+    const atualizarStatusAtividade = (id, novoStatus) => {
+      setAtividades((prev) =>
+        prev.map((a) =>
+          a.id === id ? { ...a, status: novoStatus } : a
+        )
+      );
+    };
 
     setPerfil(perfilData);
     setAtividades(atividadesData);
@@ -64,6 +79,7 @@ export default function useAlunoSala() {
     colegas,
     mensagemSucesso,
     atividadeSelecionada,
+    setMensagemSucesso,
     setAtividadeSelecionada,
     setAvisoSelecionado,
     confirmarPresenca,

@@ -81,6 +81,7 @@ export default function TelaSalaProfessor() {
                   <ModalDetalheAtividade
                     atividade={atividadeSelecionada}
                     onClose={() => setAtividadeSelecionada(null)}
+                    isProfessor
                   />
                 )}
               </AnimatePresence>

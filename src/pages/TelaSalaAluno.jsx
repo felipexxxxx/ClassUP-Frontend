@@ -2,14 +2,15 @@ import React from "react";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import { AnimatePresence } from "framer-motion";
-import useAlunoSala from "../hooks/useAlunoSala";
-import AlertaMensagem from "../components/shared/AlertaMensagem";
+import TabsAluno from "../components/shared/TabsAluno";
+import { motion } from "framer-motion";
 import CardAtividade from "../components/shared/CardAtividade";
 import ModalDetalheAtividade from "../components/shared/ModalDetalheAtividade";
-import TabsAluno from "../components/shared/TabsAluno";
 import ModalDetalheAviso from "../components/shared/ModalDetalheAviso";
 import CardAviso from "../components/shared/CardAviso";
 import AnimacaoEntrada from "../components/shared/AnimacaoEntrada";
+import useAlunoSala from "../hooks/useAlunoSala";
+import formatarData from "../utils/formatarData";
 
 export default function TelaAlunoSala() {
   const {
@@ -19,123 +20,138 @@ export default function TelaAlunoSala() {
     avisos,
     colegas,
     mensagemSucesso,
+    setMensagemSucesso,
     atividadeSelecionada,
     setAtividadeSelecionada,
     avisoSelecionado,
     setAvisoSelecionado,
     confirmarPresenca,
     cancelarPresenca,
+    bloqueado
   } = useAlunoSala();
 
   const tabs = [
     { id: "atividades", label: "Atividades" },
     { id: "avisos", label: "Avisos" },
-    { id: "colegas", label: "Colegas" },
+    { id: "colegas", label: "Colegas" }
   ];
 
   const [abaAtiva, setAbaAtiva] = React.useState("atividades");
 
+  React.useEffect(() => {
+    if (mensagemSucesso) {
+      const timer = setTimeout(() => setMensagemSucesso(""), 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [mensagemSucesso]);
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-900 text-white">
       <Header nomeSala={nomeSala} />
-
       <TabsAluno tabs={tabs} abaAtiva={abaAtiva} onChange={setAbaAtiva} />
 
       <main className="flex-grow p-10 max-w-2xl w-full mx-auto">
-        <AnimatePresence>
-          {mensagemSucesso && (
-            <AlertaMensagem mensagem={mensagemSucesso} tipo="sucesso" />
-          )}
-        </AnimatePresence>
+      <AnimatePresence>
+        {mensagemSucesso && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="mb-6 bg-green-700 text-white text-center py-2 px-4 rounded shadow"
+          >
+            {mensagemSucesso}
+          </motion.div>
+        )}
+    </AnimatePresence>
+
 
         <AnimatePresence mode="wait">
-  {abaAtiva === "atividades" && (
-    <AnimacaoEntrada key="atividades">
-      <h2 className="text-5xl font-bold text-indigo-300 mb-8">Atividades</h2>
-      <section className="grid gap-8">
-        {atividades.length === 0 ? (
-          <p className="text-xl text-indigo-200">Nenhuma atividade encontrada.</p>
-        ) : (
-          atividades.map((atividade) => (
-            <CardAtividade
-              key={atividade.id}
-              atividade={atividade}
-              onClick={() => setAtividadeSelecionada(atividade)}
-            />
-          ))
-        )}
-      </section>
-      <AnimatePresence>
-        {atividadeSelecionada && (
-          <ModalDetalheAtividade
-            atividade={atividadeSelecionada}
-            onClose={() => setAtividadeSelecionada(null)}
-            onConfirmar={() => confirmarPresenca(atividadeSelecionada.id)}
-            onCancelar={() => cancelarPresenca(atividadeSelecionada.id)}
-          />
-        )}
-      </AnimatePresence>
-    </AnimacaoEntrada>
-  )}
+          {abaAtiva === "atividades" && (
+            <AnimacaoEntrada key="atividades">
+              <h2 className="text-5xl font-bold text-indigo-300 mb-8">Atividades</h2>
+              <section className="grid gap-8">
+                {atividades.length === 0 ? (
+                  <p className="text-xl text-indigo-200">Nenhuma atividade encontrada.</p>
+                ) : (
+                  atividades.map((atividade) => (
+                    <CardAtividade
+                      key={atividade.id}
+                      atividade={{ ...atividade, dataHora: atividade.data }}
+                      onClick={() => !bloqueado && setAtividadeSelecionada(atividade)}
+                    />
+                  ))
+                )}
+              </section>
 
-  {abaAtiva === "avisos" && (
-    <AnimacaoEntrada key="avisos">
-      <h2 className="text-5xl font-bold text-indigo-300 mb-8">Avisos</h2>
-      <section className="grid gap-8">
-        {avisos.length === 0 ? (
-          <p className="text-xl text-indigo-200">Nenhum aviso encontrado.</p>
-        ) : (
-          avisos.map((aviso) => (
-            <CardAviso
-              key={aviso.id}
-              aviso={{
-                ...aviso,
-                enviadaEmFormatada: aviso.enviadaEm // ou use formatarData(aviso.enviadaEm) se quiser formatar diretamente aqui
-              }}
-              onClick={() => setAvisoSelecionado(aviso)}
-            />
-          ))
-        )}
-      </section>
-      <AnimatePresence>
-        {avisoSelecionado && (
-          <ModalDetalheAviso
-            aviso={avisoSelecionado}
-            onClose={() => setAvisoSelecionado(null)}
-          />
-        )}
-      </AnimatePresence>
-    </AnimacaoEntrada>
-  )}
+              <AnimatePresence>
+                {atividadeSelecionada && (
+                  <ModalDetalheAtividade
+                    atividade={atividadeSelecionada}
+                    onClose={() => setAtividadeSelecionada(null)}
+                    onConfirmar={() => confirmarPresenca(atividadeSelecionada.id)}
+                    onCancelar={() => cancelarPresenca(atividadeSelecionada.id)}
+                  />
+                )}
+              </AnimatePresence>
+            </AnimacaoEntrada>
+          )}
 
-  {abaAtiva === "colegas" && (
-    <AnimacaoEntrada key="colegas">
-      <h2 className="text-5xl font-bold text-indigo-300 mb-8">Colegas de Sala</h2>
-      {colegas.length === 1 ? (
-        <p className="text-xl text-indigo-200">Parece que você é o primeiro aqui 😃</p>
-      ) : (
-        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {colegas.map((pessoa, idx) => (
-            <li
-              key={idx}
-              className="bg-gray-800 px-6 py-5 rounded-xl shadow-md hover:shadow-indigo-500/10 transition-all"
-            >
-              <div className="text-lg text-white font-medium mb-1">{pessoa.nome}</div>
-              <div className="text-sm text-indigo-300">
-                {pessoa.id === perfil.id
-                  ? "Você"
-                  : idx === 0
-                  ? "Professor(a)"
-                  : "Aluno(a)"}
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-    </AnimacaoEntrada>
-  )}
-</AnimatePresence>
+          {abaAtiva === "avisos" && (
+            <AnimacaoEntrada key="avisos">
+              <h2 className="text-5xl font-bold text-indigo-300 mb-8">Avisos</h2>
+              <section className="grid gap-8">
+                {avisos.length === 0 ? (
+                  <p className="text-xl text-indigo-200">Nenhum aviso encontrado.</p>
+                ) : (
+                  avisos.map((aviso) => (
+                    <CardAviso
+                      key={aviso.id}
+                      aviso={{
+                        ...aviso,
+                        enviadaEmFormatada: formatarData(aviso.enviadaEm)
+                      }}
+                      onClick={() => setAvisoSelecionado(aviso)}
+                    />
+                  ))
+                )}
+              </section>
 
+              <AnimatePresence>
+                {avisoSelecionado && (
+                  <ModalDetalheAviso
+                    aviso={avisoSelecionado}
+                    onClose={() => setAvisoSelecionado(null)}
+                  />
+                )}
+              </AnimatePresence>
+            </AnimacaoEntrada>
+          )}
+
+          {abaAtiva === "colegas" && (
+            <AnimacaoEntrada key="colegas">
+              <h2 className="text-5xl font-bold text-indigo-300 mb-8">Colegas de Sala</h2>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {colegas.map((pessoa, idx) => (
+                  <li
+                    key={pessoa.id}
+                    className="bg-gray-800 px-6 py-5 rounded-xl shadow-md hover:shadow-indigo-500/10 transition-all"
+                  >
+                    <div className="text-xl text-white font-medium mb-1">
+                      {pessoa.nome}
+                    </div>
+                    <div className="text-sm text-indigo-300">
+                      {pessoa.id === perfil.id
+                        ? "Você"
+                        : idx === 0
+                        ? "Professor(a)"
+                        : "Aluno(a)"}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </AnimacaoEntrada>
+          )}
+        </AnimatePresence>
       </main>
 
       <Footer />

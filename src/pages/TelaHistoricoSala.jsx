@@ -47,7 +47,7 @@ export default function TelaHistoricoSala() {
               <h2 className="text-5xl font-bold text-indigo-300 mb-8">Atividades</h2>
               <section className="grid gap-8">
                 {atividades.length === 0 ? (
-                  <p className="text-xl text-indigo-200">Nenhuma atividade encontrada.</p>
+                  <p className="text-2xl text-indigo-200">Nenhuma atividade encontrada.</p>
                 ) : (
                   atividades.map((atividade) => (
                     <CardAtividade
@@ -66,7 +66,7 @@ export default function TelaHistoricoSala() {
               <h2 className="text-5xl font-bold text-indigo-300 mb-8">Avisos</h2>
               <section className="grid gap-8">
                 {avisos.length === 0 ? (
-                  <p className="text-indigo-200">Nenhum aviso encontrado.</p>
+                  <p className="text-2xl text-indigo-200">Nenhum aviso encontrado.</p>
                 ) : (
                   avisos.map((aviso) => (
                     <CardAviso

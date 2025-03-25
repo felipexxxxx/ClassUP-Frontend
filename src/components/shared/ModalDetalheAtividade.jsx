@@ -1,72 +1,101 @@
-import { motion } from "framer-motion";
 import formatarData from "../../utils/formatarData";
+import { motion } from "framer-motion";
 
 export default function ModalDetalheAtividade({
   atividade,
   onClose,
   onConfirmar,
   onCancelar,
+  isProfessor = false,
 }) {
-  if (!atividade) return null;
+  const dataFormatada = atividade.data
+    ? formatarData(atividade.data)
+    : "Data não informada";
+
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  const desabilitarBotoes = atividade.status !== "PENDENTE";
 
   return (
-    <motion.div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
-      onClick={onClose}
+    <div
+      className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
+      onClick={handleOverlayClick}
     >
       <motion.div
-        onClick={(e) => e.stopPropagation()}
-        className="bg-gray-800 p-8 rounded-2xl max-w-xl w-full shadow-2xl"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.9 }}
-        transition={{ duration: 0.2 }}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 30 }}
+        className="bg-gray-900 text-white max-w-2xl w-full p-8 rounded-2xl shadow-xl relative"
       >
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-white text-xl"
+        >
+          ✕
+        </button>
+
         <h2 className="text-3xl font-bold text-indigo-300 mb-2">
           {atividade.titulo}
         </h2>
 
-        <p className="text-md text-gray-400 mb-2">
-          {formatarData(atividade.data)}
+        <p className="text-xl text-indigo-400 text-sm mb-3">📅 {dataFormatada}</p>
+
+        <p className="text-xl text-white mb-3">
+          {atividade.descricao || "Sem descrição fornecida."}
         </p>
 
-        <p className="text-gray-300 mb-2">{atividade.descricao}</p>
-
-        <p className="text-gray-300 mb-6">
-          Local:{" "}
-          <span className="text-indigo-200">
-            {atividade.local || "Não informado"}
-          </span>
+        <p className="text-lg text-indigo-300 mb-6">
+          📍 <span className="font-medium text-white">Local:</span> {atividade.local}
         </p>
 
-        <p className="mb-6">
-          <span className="font-semibold text-gray-400">Status:</span>{" "}
-          <span className="text-indigo-200 font-semibold">
-            {atividade.status}
-          </span>
-        </p>
+        {!isProfessor && (
+          <>
+            <div className="mb-6">
+              <span className="text-white font-semibold mr-2">Status:</span>
+              <span
+                className={`font-semibold ${
+                  atividade.status === "CONFIRMADO"
+                    ? "text-green-400"
+                    : atividade.status === "CANCELADO"
+                    ? "text-red-400"
+                    : "text-gray-400"
+                }`}
+              >
+                {atividade.status || "PENDENTE"}
+              </span>
+            </div>
 
-        <div className="flex gap-4 justify-center">
-          <button
-            onClick={() => onConfirmar(atividade.id)}
-            disabled={atividade.status !== "PENDENTE"}
-            className="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed px-5 py-2 rounded-full text-white text-sm font-semibold"
-          >
-            Confirmar Presença
-          </button>
-          <button
-            onClick={() => onCancelar(atividade.id)}
-            disabled={atividade.status !== "PENDENTE"}
-            className="bg-gray-600 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed px-5 py-2 rounded-full text-white text-sm font-semibold"
-          >
-            Cancelar Presença
-          </button>
-        </div>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={onConfirmar}
+                disabled={desabilitarBotoes}
+                className={`px-5 py-2 rounded text-white font-medium transition-all ${
+                  desabilitarBotoes
+                    ? "bg-green-900 cursor-not-allowed"
+                    : "bg-green-600 hover:bg-green-500"
+                }`}
+              >
+                Confirmar Presença
+              </button>
+              <button
+                onClick={onCancelar}
+                disabled={desabilitarBotoes}
+                className={`px-5 py-2 rounded text-white font-medium transition-all ${
+                  desabilitarBotoes
+                    ? "bg-red-900 cursor-not-allowed"
+                    : "bg-red-600 hover:bg-red-500"
+                }`}
+              >
+                Cancelar Presença
+              </button>
+            </div>
+          </>
+        )}
       </motion.div>
-    </motion.div>
+    </div>
   );
 }

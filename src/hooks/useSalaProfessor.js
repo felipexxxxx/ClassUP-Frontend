@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { buscarDetalhesSala } from "../services/professorService";
+import { buscarSalaPorId } from "../services/professorService";
 
 export default function useSalaProfessor() {
   const { id } = useParams();
@@ -13,7 +13,7 @@ export default function useSalaProfessor() {
   useEffect(() => {
     async function fetchDados() {
       try {
-        const data = await buscarDetalhesSala(id);
+        const data = await buscarSalaPorId(id); // corrigido aqui!
         setDados(data);
       } catch (err) {
         console.error("Erro ao buscar detalhes da sala:", err);
