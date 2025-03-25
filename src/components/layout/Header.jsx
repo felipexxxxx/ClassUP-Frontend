@@ -4,38 +4,29 @@ import { FiLogOut } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import PerfilDropdown from "./PerfilDropdown";
 import ModalLogout from "../shared/ModalLogout";
-import useAuth from "../../hooks/useAuth"
-import api from "../../api/api";
-import { useState } from "react";
+import useAuth from "../../hooks/useAuth";
+import { useState, useEffect } from "react";
 
 export default function Header({ nomeSala = "", exibirSala = true }) {
   const navigate = useNavigate();
   const [mostrarDropdown, setMostrarDropdown] = useState(false);
   const [mostrarModalLogout, setMostrarModalLogout] = useState(false);
-  const {logout} = useAuth();
+  const { redirecionarPorRole, logout } = useAuth();
 
   const isLogado = !!localStorage.getItem("token");
 
   const handleClickLogo = async () => {
     if (!isLogado) {
-      navigate("/");
+      navigate("/TelaInicial");
       return;
     }
 
     try {
-      const response = await api.get("/sala/aluno");
-      if (response.data) {
-        navigate("/aluno/sala");
-      }
+      await redirecionarPorRole();
     } catch (error) {
-      navigate("/aluno/entrar");
+      console.error("Erro ao redirecionar:", error);
     }
   };
-
-  <ModalLogout
-  onCancel={() => setMostrarModalLogout(false)}
-  onConfirm={logout}
-/>
 
   return (
     <header className="flex items-center justify-between px-10 py-6 border-b border-gray-800 bg-gray-950 shadow-md">
@@ -72,7 +63,7 @@ export default function Header({ nomeSala = "", exibirSala = true }) {
 
             {mostrarDropdown && (
               <div className="absolute top-14 right-0">
-                <PerfilDropdown onClose={() => setMostrarDropdown(false)}/>
+                <PerfilDropdown onClose={() => setMostrarDropdown(false)} />
               </div>
             )}
 
@@ -94,15 +85,14 @@ export default function Header({ nomeSala = "", exibirSala = true }) {
         )}
       </div>
 
-          <AnimatePresence>
-                  {mostrarModalLogout && (
-                <ModalLogout
-                onCancel={() => setMostrarModalLogout(false)}
-                onConfirm={logout}
-              />
-            )}
-        </AnimatePresence>
-
+      <AnimatePresence>
+        {mostrarModalLogout && (
+          <ModalLogout
+            onCancel={() => setMostrarModalLogout(false)}
+            onConfirm={logout}
+          />
+        )}
+      </AnimatePresence>
     </header>
   );
 }

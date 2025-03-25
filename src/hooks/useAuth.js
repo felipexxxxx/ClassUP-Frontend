@@ -28,52 +28,72 @@ export default function useAuth() {
 
       setMensagem("Login realizado com sucesso!");
       setSucesso(true);
-
       setTimeout(() => setCarregandoRedirect(true), 850);
 
-      setTimeout(async () => {
-        if (role === "ALUNO") {
-          try {
-            const salaResponse = await buscarSalaAluno(token);
-            if (salaResponse.data) {
-              navigate("/aluno/sala");
-            } else {
-              navigate("/aluno/entrar");
-            }
-          } catch {
-            navigate("/aluno/entrar");
-          }
-        } else if (role === "PROFESSOR") {
-          navigate("/professor");
-        }
-      }, 2000);
+      setTimeout(() => redirecionarPorRole(), 2000);
     } catch (err) {
-      if (
-        err.message?.includes("Network Error") ||
-        err.message?.includes("ERR_CONNECTION_REFUSED")
-      ) {
-        setMensagem("Erro de conexão. Verifique se o servidor e o banco de dados estão funcionando.");
-      } else {
-        setMensagem("Login inválido. Verifique seus dados.");
-      }
+      setMensagem(
+        err.message?.includes("Network Error")
+          ? "Erro de conexão. Verifique o servidor."
+          : "Login inválido. Verifique seus dados."
+      );
       setSucesso(false);
     }
   };
 
   const logout = async () => {
     const token = localStorage.getItem("token");
-
     if (token) {
       try {
-        await logoutUsuario(token); // usando o service!
+        await logoutUsuario(token);
       } catch (err) {
         console.warn("Erro ao deslogar no backend:", err);
       }
     }
-
     localStorage.clear();
     navigate("/TelaInicial");
   };
+
+  const redirecionarPorRole = async () => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    navigate("/login");
+    return;
+  }
+
+  try {
+    const { role } = jwtDecode(token);
+
+    if (role === "ALUNO") {
+      try {
+        const response = await buscarSalaAluno(token);
+
+        // ⚠️ Verifica se existe sala no response
+        if (response?.data) {
+          navigate("/aluno/sala");
+        } else {
+          navigate("/aluno/entrar");
+        }
+      } catch (err) {
+        // 🔒 Trata erro 400 como aluno sem sala
+        if (err.response?.status === 400) {
+          navigate("/aluno/entrar");
+        } else {
+          console.error("Erro inesperado ao buscar sala do aluno:", err);
+          navigate("/login");
+        }
+      }
+    } else if (role === "PROFESSOR") {
+      navigate("/professor/painel");
+    } else {
+      navigate("/login"); // fallback
+    }
+  } catch (error) {
+    console.error("Erro ao decodificar token ou redirecionar:", error);
+    navigate("/login");
+  }
+};
 
   return {
     mensagem,
@@ -81,5 +101,6 @@ export default function useAuth() {
     carregandoRedirect,
     realizarLogin,
     logout,
+    redirecionarPorRole,
   };
 }

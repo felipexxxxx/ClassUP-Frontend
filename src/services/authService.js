@@ -11,10 +11,7 @@ export async function buscarSalaAluno(token) {
   });
 }
 
-export async function logoutUsuario() {
-  const token = localStorage.getItem("token");
-  if (!token) return;
-
+export async function logoutUsuario(token) {
   await api.post("/user/logout", null, {
     headers: { Authorization: `Bearer ${token}` },
   });

@@ -1,37 +1,33 @@
+import { FaTrash, FaEdit } from "react-icons/fa";
 import formatarData from "../../utils/formatarData";
 
-export default function CardAtividade({ atividade, onClick }) {
+export default function CardAtividade({ atividade, onClick, onDelete, isProfessor }) {
   return (
-    <div
-      onClick={onClick}
-      className="bg-gray-800 p-8 rounded-2xl shadow-xl hover:shadow-indigo-500/20 transition-all cursor-pointer"
-    >
-      <h3 className="text-3xl font-bold text-indigo-300 mb-2">
-        {atividade.titulo}
-        <span className="text-xl text-base text-gray-400 ml-2">
-          ({formatarData(atividade.data)})
-        </span>
-      </h3>
-
-      <p className="text-lg text-gray-300 mb-2">
-        {atividade.descricao || "Sem descrição."}
+    <div className="bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-indigo-500/10 transition-all relative">
+      <h3 className="text-2xl font-bold text-white mb-2">{atividade.titulo}</h3>
+      <p className="text-indigo-200 mb-1">{atividade.descricao}</p>
+      <p className="text-indigo-400 text-sm mb-1">
+        📍 {atividade.local} — 🗓️ {formatarData(atividade.dataHora)}
       </p>
 
-      <p>
-        <span className="font-semibold text-gray-400">Status:</span>{" "}
-        <span
-            className={`font-semibold ${
-              atividade.status === "CONFIRMADO"
-                ? "text-green-400"
-                : atividade.status === "CANCELADO"
-                ? "text-red-400"
-                : "text-indigo-200"
-            }`}
+      {isProfessor && (
+        <div className="absolute top-4 right-4 flex gap-3">
+          <button
+            onClick={onClick}
+            title="Editar"
+            className="text-yellow-400 hover:text-yellow-200 text-lg"
           >
-            {atividade.status}
-          </span>
-
-      </p>
+            <FaEdit />
+          </button>
+          <button
+            onClick={onDelete}
+            title="Excluir"
+            className="text-red-500 hover:text-red-300 text-lg"
+          >
+            <FaTrash />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,12 +1,15 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import TelaInicial from "./pages/TelaInicial";
-import Login from "./pages/TelaLogin";
-import TelaAluno from "./pages/TelaAlunoSala";
-import TelaAcessoSala from "./pages/TelaAcessoSala";
+import TelaLogin from "./pages/TelaLogin";
+import TelaAluno from "./pages/TelaSalaAluno";
+import TelaAcessoSala from "./pages/TelaSalaAcesso";
 import TelaQuemSomos from "./pages/TelaQuemSomos";
 import TelaPerfil from "./pages/TelaPerfil";
 import TelaHistorico from "./pages/TelaHistorico";
 import TelaHistoricoDetalhes from "./pages/TelaHistoricoSala";
+import TelaPainelProfessor from "./pages/TelaPainelProfessor";
+import TelaSalaProfessor from "./pages/TelaSalaProfessor";
+
 
 
 
@@ -15,7 +18,9 @@ function App() {
     <Routes>
       <Route path="/TelaInicial" element={<TelaInicial />} />
       <Route path="/sobre" element={<TelaQuemSomos />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/login" element={<TelaLogin />} />
+      <Route path="/professor/painel" element={<TelaPainelProfessor />} />
+      <Route path="/sala/:id" element={<TelaSalaProfessor />} />
       <Route path="/aluno/sala" element={<TelaAluno />} />
       <Route path="/aluno/entrar" element={<TelaAcessoSala />} />
       <Route path="/perfil" element={<TelaPerfil />} />
