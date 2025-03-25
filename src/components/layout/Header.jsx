@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import PerfilDropdown from "./PerfilDropdown";
 import ModalLogout from "../shared/ModalLogout";
 import useAuth from "../../hooks/useAuth";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-export default function Header({ nomeSala = "", exibirSala = true }) {
+export default function Header({ nomeSala = "", codigoAcesso = "", exibirSala = true }) {
   const navigate = useNavigate();
   const [mostrarDropdown, setMostrarDropdown] = useState(false);
   const [mostrarModalLogout, setMostrarModalLogout] = useState(false);
@@ -29,7 +29,7 @@ export default function Header({ nomeSala = "", exibirSala = true }) {
   };
 
   return (
-    <header className="flex items-center justify-between px-10 py-6 border-b border-gray-800 bg-gray-950 shadow-md">
+    <header className="flex items-center justify-between px-10 py-6 border-b border-gray-800 bg-gray-950 shadow-md relative">
       <h1
         className="text-5xl font-extrabold text-indigo-300 tracking-wide cursor-pointer hover:text-indigo-100 transition duration-200"
         onClick={handleClickLogo}
@@ -38,8 +38,13 @@ export default function Header({ nomeSala = "", exibirSala = true }) {
       </h1>
 
       {exibirSala && (
-        <div className="absolute left-1/2 transform -translate-x-1/2 text-2xl font-semibold text-white">
-          {nomeSala}
+        <div className="absolute left-1/2 transform -translate-x-1/2 text-center text-white">
+          <div className="text-3xl font-semibold">{nomeSala}</div>
+          {codigoAcesso && (
+            <div className="text-md text-indigo-300 font-mono mt-1">
+              <span className="font-bold">{codigoAcesso}</span>
+            </div>
+          )}
         </div>
       )}
 

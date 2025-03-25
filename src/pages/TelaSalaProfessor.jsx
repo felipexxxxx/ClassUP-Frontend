@@ -42,11 +42,11 @@ export default function TelaSalaProfessor() {
     );
   }
 
-  const { nome: nomeSala, atividades = [], avisos = [], alunos: colegas = [], professor } = dados;
+  const { nome: nomeSala, codigoAcesso, atividades = [], avisos = [], alunos: colegas = [], professor } = dados;
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-900 text-white">
-      <Header nomeSala={nomeSala} />
+      <Header nomeSala={nomeSala} codigoAcesso={codigoAcesso} />
 
       <TabsAluno tabs={tabs} abaAtiva={abaAtiva} onChange={setAbaAtiva} />
 

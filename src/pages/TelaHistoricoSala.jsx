@@ -1,108 +1,136 @@
-import formatarData from "../../utils/formatarData";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import Header from "../components/layout/Header";
+import Footer from "../components/layout/Footer";
+import TabsAluno from "../components/shared/TabsAluno";
+import CardAtividade from "../components/shared/CardAtividade";
+import ModalDetalheAtividade from "../components/shared/ModalDetalheAtividade";
+import CardAviso from "../components/shared/CardAviso";
+import ModalDetalheAviso from "../components/shared/ModalDetalheAviso";
+import AnimacaoEntrada from "../components/shared/AnimacaoEntrada";
+import useHistorico from "../hooks/useHistorico";
 
-export default function ModalDetalheAtividade({
-  atividade,
-  onClose,
-  onConfirmar,
-  onCancelar,
-  isProfessor = false,
-  modoSomenteLeitura = false,
-}) {
-  const dataFormatada = atividade.data
-    ? formatarData(atividade.data)
-    : "Data não informada";
+export default function TelaHistoricoSala() {
+  const { id } = useParams();
+  const {
+    dadosDetalhes: dados,
+    carregandoDetalhes: carregando,
+    abaAtiva,
+    setAbaAtiva
+  } = useHistorico(id);
 
-  const handleOverlayClick = (e) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
+  const [atividadeSelecionada, setAtividadeSelecionada] = useState(null);
+  const [avisoSelecionado, setAvisoSelecionado] = useState(null);
+
+  const fecharModal = () => {
+    setAtividadeSelecionada(null);
+    setAvisoSelecionado(null);
   };
 
-  // 🔒 Botões SEMPRE desabilitados se for modo leitura
-  const desabilitarBotoes =
-    atividade.status !== "PENDENTE" || modoSomenteLeitura;
+  if (carregando) {
+    return <p className="text-center text-indigo-200 mt-10">Carregando...</p>;
+  }
 
-  // 🔒 Esconder status e botões se modo leitura
-  const exibirControlesDePresenca = !modoSomenteLeitura && !isProfessor;
+  if (!dados) {
+    return <p className="text-center text-red-400 mt-10">Erro ao carregar histórico.</p>;
+  }
+
+  const { nomeSala, professor, alunos, atividades, avisos } = dados;
+
+  const tabs = [
+    { id: "atividades", label: "Atividades" },
+    { id: "avisos", label: "Avisos" },
+    { id: "colegas", label: "Colegas" }
+  ];
 
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
-      onClick={handleOverlayClick}
-    >
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 30 }}
-        className="bg-gray-900 text-white max-w-2xl w-full p-8 rounded-2xl shadow-xl relative"
-      >
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white text-xl"
-        >
-          ✕
-        </button>
+    <div className="min-h-screen flex flex-col bg-gray-900 text-white">
+      <Header nomeSala={nomeSala} />
+      <TabsAluno tabs={tabs} abaAtiva={abaAtiva} onChange={setAbaAtiva} />
 
-        <h2 className="text-3xl font-bold text-indigo-300 mb-2">
-          {atividade.titulo}
-        </h2>
+      <main className="flex-grow p-10 max-w-2xl w-full mx-auto">
+        <AnimacaoEntrada key={abaAtiva}>
+          {abaAtiva === "atividades" && (
+            <>
+              <h2 className="text-5xl font-bold text-indigo-300 mb-8">Atividades</h2>
+              <section className="grid gap-8">
+                {atividades.length === 0 ? (
+                  <p className="text-2xl text-indigo-200">Nenhuma atividade encontrada.</p>
+                ) : (
+                  atividades.map((atividade) => (
+                    <CardAtividade
+                      key={atividade.id}
+                      atividade={atividade}
+                      onClick={() => setAtividadeSelecionada(atividade)}
+                      modoSomenteLeitura={true} 
+                    />
+                  ))
+                )}
+              </section>
 
-        <p className="text-xl text-indigo-400 text-sm mb-3">📅 {dataFormatada}</p>
+              {atividadeSelecionada && (
+                <ModalDetalheAtividade
+                  atividade={atividadeSelecionada}
+                  onClose={fecharModal}
+                  modoSomenteLeitura={true}
+                />
+              )}
+            </>
+          )}
 
-        <p className="text-xl text-white mb-3">
-          {atividade.descricao || "Sem descrição fornecida."}
-        </p>
+          {abaAtiva === "avisos" && (
+            <>
+              <h2 className="text-5xl font-bold text-indigo-300 mb-8">Avisos</h2>
+              <section className="grid gap-8">
+                {avisos.length === 0 ? (
+                  <p className="text-2xl text-indigo-200">Nenhum aviso encontrado.</p>
+                ) : (
+                  avisos.map((aviso) => (
+                    <CardAviso
+                      key={aviso.id}
+                      aviso={{
+                        ...aviso,
+                        enviadaEmFormatada: formatarData(aviso.enviadaEm)
+                      }}
+                      onClick={() => setAvisoSelecionado(aviso)}
+                    />
+                  ))
+                )}
+              </section>
 
-        <p className="text-lg text-indigo-300 mb-6">
-          📍 <span className="font-medium text-white">Local:</span> {atividade.local}
-        </p>
+              {avisoSelecionado && (
+                <ModalDetalheAviso
+                  aviso={avisoSelecionado}
+                  onClose={fecharModal}
+                />
+              )}
+            </>
+          )}
 
-        {/* 🔒 SOMENTE EXIBE status/botões se não estiver em modo somente leitura */}
-        {exibirControlesDePresenca && (
-          <>
-            <div className="mb-6">
-              <span className="text-white font-semibold mr-2">Status presença:</span>
-              <span
-                className={`font-semibold ${
-                  atividade.status === "CONFIRMADO"
-                    ? "text-green-400"
-                    : atividade.status === "CANCELADO"
-                    ? "text-red-400"
-                    : "text-gray-400"
-                }`}
-              >
-                {atividade.status || "PENDENTE"}
-              </span>
-            </div>
+          {abaAtiva === "colegas" && (
+            <>
+              <h2 className="text-5xl font-bold text-indigo-300 mb-8">Participantes</h2>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <li className="bg-gray-800 px-6 py-6 rounded-2xl shadow-md transition-all hover:bg-gray-700 hover:shadow-indigo-500/10 min-h-[120px]">
+                  <div className="text-sm font-semibold text-white break-words">{professor.nome}</div>
+                  <div className="text-sm text-indigo-300 mt-1">Professor(a)</div>
+                </li>
+                {alunos.map((aluno) => (
+                  <li
+                    key={aluno.id}
+                    className="bg-gray-800 px-6 py-6 rounded-2xl shadow-md transition-all hover:bg-gray-700 hover:shadow-indigo-500/10 min-h-[120px]"
+                  >
+                    <div className="text-sm font-semibold text-white break-words">{aluno.nome}</div>
+                    <div className="text-sm text-indigo-300 mt-1">Aluno(a)</div>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </AnimacaoEntrada>
+      </main>
 
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={onConfirmar}
-                disabled={desabilitarBotoes}
-                className={`px-5 py-2 rounded text-white font-medium transition-all ${
-                  desabilitarBotoes
-                    ? "bg-green-900 cursor-not-allowed"
-                    : "bg-green-600 hover:bg-green-500"
-                }`}
-              >
-                Confirmar Presença
-              </button>
-              <button
-                onClick={onCancelar}
-                disabled={desabilitarBotoes}
-                className={`px-5 py-2 rounded text-white font-medium transition-all ${
-                  desabilitarBotoes
-                    ? "bg-red-900 cursor-not-allowed"
-                    : "bg-red-600 hover:bg-red-500"
-                }`}
-              >
-                Cancelar Presença
-              </button>
-            </div>
-          </>
-        )}
-      </motion.div>
+      <Footer />
     </div>
   );
 }

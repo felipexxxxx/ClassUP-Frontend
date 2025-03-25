@@ -6,7 +6,7 @@ export default function CardAtividade({
   onClick,
   isProfessor,
   onDelete,
-  modoSomenteLeitura = false
+  modoSomenteLeitura = false,
 }) {
   const dataFormatada = atividade.data
     ? formatarData(atividade.data)
@@ -31,8 +31,8 @@ export default function CardAtividade({
         {atividade.local || "Não informado"}
       </p>
 
-      {/* Mostrar STATUS para alunos sempre */}
-      {!isProfessor && (
+      {/* Mostrar status apenas se não for leitura e não for professor */}
+      {!modoSomenteLeitura && !isProfessor && (
         <p>
           <span className="text-lg text-white font-semibold text-gray-400">
             Status presença:
@@ -51,6 +51,7 @@ export default function CardAtividade({
         </p>
       )}
 
+      {/* Mostrar ícones apenas se for professor e não estiver em modo leitura */}
       {isProfessor && !modoSomenteLeitura && (
         <div className="absolute top-4 right-4 flex gap-3 z-10">
           <button

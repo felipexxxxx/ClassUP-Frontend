@@ -9,6 +9,8 @@ export default function ModalDetalheAtividade({
   isProfessor = false,
   modoSomenteLeitura = false
 }) {
+  console.log("Atividade recebida:", atividade);
+
   const dataFormatada = atividade.data
     ? formatarData(atividade.data)
     : "Data não informada";
@@ -54,50 +56,49 @@ export default function ModalDetalheAtividade({
           📍 <span className="font-medium text-white">Local:</span> {atividade.local || "Não informado"}
         </p>
 
-        {/* Mostrar status para alunos */}
-        {!isProfessor && (
-          <div className="mb-6">
-            <span className="text-white font-semibold mr-2">Status presença:</span>
-            <span
-              className={`font-semibold ${
-                atividade.status === "CONFIRMADO"
-                  ? "text-green-400"
-                  : atividade.status === "CANCELADO"
-                  ? "text-red-400"
-                  : "text-gray-400"
-              }`}
-            >
-              {atividade.status || "PENDENTE"}
-            </span>
-          </div>
-        )}
-
-        {/* Mostrar botões apenas para alunos e se não for modo somente leitura */}
+        {/* Esconde status e botões se modoSomenteLeitura for true OU se for professor */}
         {!isProfessor && !modoSomenteLeitura && (
-          <div className="flex justify-center gap-4">
-            <button
-              onClick={onConfirmar}
-              disabled={desabilitarBotoes}
-              className={`px-5 py-2 rounded text-white font-medium transition-all ${
-                desabilitarBotoes
-                  ? "bg-green-900 cursor-not-allowed"
-                  : "bg-green-600 hover:bg-green-500"
-              }`}
-            >
-              Confirmar Presença
-            </button>
-            <button
-              onClick={onCancelar}
-              disabled={desabilitarBotoes}
-              className={`px-5 py-2 rounded text-white font-medium transition-all ${
-                desabilitarBotoes
-                  ? "bg-red-900 cursor-not-allowed"
-                  : "bg-red-600 hover:bg-red-500"
-              }`}
-            >
-              Cancelar Presença
-            </button>
-          </div>
+          <>
+            <div className="mb-6">
+              <span className="text-white font-semibold mr-2">Status presença:</span>
+              <span
+                className={`font-semibold ${
+                  atividade.status === "CONFIRMADO"
+                    ? "text-green-400"
+                    : atividade.status === "CANCELADO"
+                    ? "text-red-400"
+                    : "text-gray-400"
+                }`}
+              >
+                {atividade.status || "PENDENTE"}
+              </span>
+            </div>
+
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={onConfirmar}
+                disabled={desabilitarBotoes}
+                className={`px-5 py-2 rounded text-white font-medium transition-all ${
+                  desabilitarBotoes
+                    ? "bg-green-900 cursor-not-allowed"
+                    : "bg-green-600 hover:bg-green-500"
+                }`}
+              >
+                Confirmar Presença
+              </button>
+              <button
+                onClick={onCancelar}
+                disabled={desabilitarBotoes}
+                className={`px-5 py-2 rounded text-white font-medium transition-all ${
+                  desabilitarBotoes
+                    ? "bg-red-900 cursor-not-allowed"
+                    : "bg-red-600 hover:bg-red-500"
+                }`}
+              >
+                Cancelar Presença
+              </button>
+            </div>
+          </>
         )}
       </motion.div>
     </div>

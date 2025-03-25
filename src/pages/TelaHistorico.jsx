@@ -4,7 +4,8 @@ import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import AnimacaoEntrada from "../components/shared/AnimacaoEntrada";
 import useHistorico from "../hooks/useHistorico";
-import formatarData from "../utils/formatarData";
+import CardHistorico from "../components/shared/CardHistorico";
+
 
 export default function TelaHistorico() {
   const navigate = useNavigate();
@@ -25,20 +26,9 @@ export default function TelaHistorico() {
           <AnimacaoEntrada>
             <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
               {historico.map((item) => (
-                <div
-                  key={item.id}
-                  onClick={() => navigate(`/historico/${item.sala.id}`)}
-                  className="cursor-pointer bg-gray-800 px-8 py-6 rounded-2xl shadow-md hover:shadow-indigo-500/20 hover:bg-gray-700 hover:scale-[1.02] transition-all duration-200 ease-in-out"
-                >
-                  <h3 className="text-2xl font-bold text-indigo-300 mb-3">
-                    {item.sala.nome}
-                  </h3>
-                  <p className="text-base text-gray-400 font-semibold">
-                    Encerrada em: {formatarData(item.dataEncerramento)}
-                  </p>
-                </div>
-              ))}
-            </section>
+                <CardHistorico key={item.id} historico={item} />
+                ))}
+              </section>
           </AnimacaoEntrada>
 
 
