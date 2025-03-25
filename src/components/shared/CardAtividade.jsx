@@ -1,8 +1,16 @@
 import formatarData from "../../utils/formatarData";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
-export default function CardAtividade({ atividade, onClick, isProfessor, onDelete }) {
-  const dataFormatada = atividade.data ? formatarData(atividade.data) : "Data não informada";
+export default function CardAtividade({
+  atividade,
+  onClick,
+  isProfessor,
+  onDelete,
+  modoSomenteLeitura = false // novo
+}) {
+  const dataFormatada = atividade.data
+    ? formatarData(atividade.data)
+    : "Data não informada";
 
   return (
     <div
@@ -14,11 +22,22 @@ export default function CardAtividade({ atividade, onClick, isProfessor, onDelet
         <span className="text-xl text-gray-400 ml-2">({dataFormatada})</span>
       </h3>
 
-      <p className="text-xl text-gray-300 mb-2">{atividade.descricao || "Sem descrição."}</p>
+      <p className="text-xl text-gray-300 mb-2">
+        {atividade.descricao || "Sem descrição."}
+      </p>
 
-      {!isProfessor && (
+      {/* Mostrar LOCAL sempre */}
+      <p className="text-lg text-indigo-300 mb-3">
+        📍 <span className="font-medium text-white">Local:</span>{" "}
+        {atividade.local || "Não informado"}
+      </p>
+
+      {/* Mostrar STATUS apenas se não for leitura e não for professor */}
+      {!isProfessor && !modoSomenteLeitura && (
         <p>
-          <span className="text-lg text-white font-semibold text-gray-400">Status presença:</span>{" "}
+          <span className="text-lg text-white font-semibold text-gray-400">
+            Status presença:
+          </span>{" "}
           <span
             className={`font-semibold ${
               atividade.status === "CONFIRMADO"
@@ -33,7 +52,8 @@ export default function CardAtividade({ atividade, onClick, isProfessor, onDelet
         </p>
       )}
 
-      {isProfessor && (
+      {/* Ícones de edição apenas para professor em modo normal */}
+      {isProfessor && !modoSomenteLeitura && (
         <div className="absolute top-4 right-4 flex gap-3 z-10">
           <button
             title="Editar"

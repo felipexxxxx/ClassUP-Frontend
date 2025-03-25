@@ -7,7 +7,7 @@ export default function ModalDetalheAtividade({
   onConfirmar,
   onCancelar,
   isProfessor = false,
-  modoSomenteLeitura = false, // 🔹 nova prop
+  modoSomenteLeitura = false,
 }) {
   const dataFormatada = atividade.data
     ? formatarData(atividade.data)
@@ -19,9 +19,12 @@ export default function ModalDetalheAtividade({
     }
   };
 
-  // 🔹 agora desabilita se o status for diferente de PENDENTE OU se for modoSomenteLeitura
+  // 🔒 Botões SEMPRE desabilitados se for modo leitura
   const desabilitarBotoes =
     atividade.status !== "PENDENTE" || modoSomenteLeitura;
+
+  // 🔒 Esconder status e botões se modo leitura
+  const exibirControlesDePresenca = !modoSomenteLeitura && !isProfessor;
 
   return (
     <div
@@ -55,7 +58,8 @@ export default function ModalDetalheAtividade({
           📍 <span className="font-medium text-white">Local:</span> {atividade.local}
         </p>
 
-        {!isProfessor && (
+        {/* 🔒 SOMENTE EXIBE status/botões se não estiver em modo somente leitura */}
+        {exibirControlesDePresenca && (
           <>
             <div className="mb-6">
               <span className="text-white font-semibold mr-2">Status presença:</span>
