@@ -117,35 +117,40 @@ export default function TelaSalaProfessor() {
             </AnimacaoEntrada>
           )}
 
-          {abaAtiva === "alunos" && (
-            <AnimacaoEntrada key="alunos">
-              <h2 className="text-5xl font-bold text-indigo-300 mb-8">Participantes</h2>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                <li className="bg-gray-800 px-6 py-5 rounded-xl shadow-md hover:shadow-indigo-500/10 transition-all">
-                  <div className="text-lg font-medium mb-1">{professor?.nomeCompleto}</div>
-                  <div className="text-sm text-indigo-300">Professor(a)</div>
-                </li>
-                {colegas.map((pessoa) => (
-                  <li
-                    key={pessoa.id}
-                    className="bg-gray-800 px-6 py-5 rounded-xl shadow-md hover:shadow-indigo-500/20 hover:bg-gray-700 hover:scale-[1.02] transition-all duration-200 ease-in-out flex justify-between items-center"
-                >
-                    <div>
-                      <div className="text-lg font-medium mb-1">{pessoa.nomeCompleto}</div>
-                      <div className="text-sm text-indigo-300">Aluno(a)</div>
+            {abaAtiva === "alunos" && (
+              <AnimacaoEntrada key="alunos">
+                <h2 className="text-5xl font-bold text-indigo-300 mb-8">Participantes</h2>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                  <li className="bg-gray-800 px-6 py-6 min-h-[120px] rounded-2xl shadow-md hover:shadow-indigo-500/20 hover:bg-gray-700 hover:scale-[1.02] transition-all duration-200 ease-in-out">
+                    <div className="text-xl font-semibold text-white break-words mb-1">
+                      {professor?.nomeCompleto}
                     </div>
-                    <button
-                        onClick={() => removerAluno(pessoa.id)}
-                        className="text-red-500 hover:text-red-300 text-xl"
-                        title="Remover aluno"
-                        >
-                        <FaTrash />
-                    </button>
+                    <div className="text-sm text-indigo-300">Professor(a)</div>
                   </li>
-                ))}
-              </ul>
-            </AnimacaoEntrada>
-          )}
+                  {colegas.map((pessoa) => (
+                    <li
+                      key={pessoa.id}
+                      className="bg-gray-800 px-6 py-6 min-h-[120px] rounded-2xl shadow-md hover:shadow-indigo-500/20 hover:bg-gray-700 hover:scale-[1.02] transition-all duration-200 ease-in-out flex justify-between items-start"
+                    >
+                      <div className="pr-4">
+                        <div className="text-sm font-semibold text-white break-words mb-1">
+                          {pessoa.nomeCompleto}
+                        </div>
+                        <div className="text-sm text-indigo-300">Aluno(a)</div>
+                      </div>
+                      <button
+                        onClick={() => removerAluno(pessoa.id)}
+                        className="text-red-500 hover:text-red-300 text-xl mt-1"
+                        title="Remover aluno"
+                      >
+                        <FaTrash />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </AnimacaoEntrada>
+            )}
+
         </AnimatePresence>
       </main>
 

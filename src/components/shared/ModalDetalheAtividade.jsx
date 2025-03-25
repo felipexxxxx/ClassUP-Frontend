@@ -7,6 +7,7 @@ export default function ModalDetalheAtividade({
   onConfirmar,
   onCancelar,
   isProfessor = false,
+  modoSomenteLeitura = false, // 🔹 nova prop
 }) {
   const dataFormatada = atividade.data
     ? formatarData(atividade.data)
@@ -18,7 +19,9 @@ export default function ModalDetalheAtividade({
     }
   };
 
-  const desabilitarBotoes = atividade.status !== "PENDENTE";
+  // 🔹 agora desabilita se o status for diferente de PENDENTE OU se for modoSomenteLeitura
+  const desabilitarBotoes =
+    atividade.status !== "PENDENTE" || modoSomenteLeitura;
 
   return (
     <div
@@ -55,7 +58,7 @@ export default function ModalDetalheAtividade({
         {!isProfessor && (
           <>
             <div className="mb-6">
-              <span className="text-white font-semibold mr-2">Status:</span>
+              <span className="text-white font-semibold mr-2">Status presença:</span>
               <span
                 className={`font-semibold ${
                   atividade.status === "CONFIRMADO"

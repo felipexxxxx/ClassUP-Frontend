@@ -1,36 +1,37 @@
-import React, { useState } from "react";
+import React from "react";
 
-export default function ModalCriarSala({ onConfirm, onCancel }) {
-  const [nome, setNome] = useState("");
-
-  const handleSubmit = () => {
-    if (nome.trim()) {
-      onConfirm(nome.trim());
-      setNome("");
-    }
-  };
-
+export default function ModalCriarSala({
+  nomeNovaSala,
+  setNomeNovaSala,
+  onClose,
+  onConfirmar
+}) {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
-      <div className="bg-gray-800 p-6 rounded-xl w-full max-w-md shadow-lg">
-        <h2 className="text-2xl font-bold text-white mb-4">Criar Nova Sala</h2>
+    <div
+      className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-gray-800 p-6 rounded-xl shadow-lg w-full max-w-md"
+      >
+        <h3 className="text-2xl font-bold text-indigo-300 mb-4 text-center">Criar nova sala</h3>
         <input
-          type="text"
-          placeholder="Nome da sala"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-          className="w-full p-3 rounded-lg mb-4 bg-gray-700 text-white"
+          value={nomeNovaSala}
+          onChange={(e) => setNomeNovaSala(e.target.value)}
+          className="w-full px-4 py-2 mb-6 rounded bg-gray-900 text-white border border-indigo-500"
+          placeholder="Digite o nome da sala"
         />
-        <div className="flex justify-end gap-4">
+        <div className="flex justify-center gap-4">
           <button
-            onClick={onCancel}
-            className="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded"
+            onClick={onClose}
+            className="px-4 py-2 rounded bg-gray-600 hover:bg-gray-700 text-white"
           >
             Cancelar
           </button>
           <button
-            onClick={handleSubmit}
-            className="px-4 py-2 bg-indigo-500 hover:bg-indigo-400 text-white rounded"
+            onClick={onConfirmar}
+            className="px-4 py-2 rounded bg-green-800 hover:bg-green-700 text-white font-semibold"
           >
             Criar
           </button>

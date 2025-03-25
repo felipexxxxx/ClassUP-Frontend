@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import TabsAluno from "../components/shared/TabsAluno";
 import CardAtividade from "../components/shared/CardAtividade";
+import ModalDetalheAtividade from "../components/shared/ModalDetalheAtividade";
 import CardAviso from "../components/shared/CardAviso";
+import ModalDetalheAviso from "../components/shared/ModalDetalheAviso";
 import AnimacaoEntrada from "../components/shared/AnimacaoEntrada";
 import formatarData from "../utils/formatarData";
-import useHistorico from "../hooks/useHistorico"; // unificado
+import useHistorico from "../hooks/useHistorico";
 
 export default function TelaHistoricoSala() {
   const { id } = useParams();
@@ -17,6 +19,14 @@ export default function TelaHistoricoSala() {
     abaAtiva,
     setAbaAtiva
   } = useHistorico(id);
+
+  const [atividadeSelecionada, setAtividadeSelecionada] = useState(null);
+  const [avisoSelecionado, setAvisoSelecionado] = useState(null);
+
+  const fecharModal = () => {
+    setAtividadeSelecionada(null);
+    setAvisoSelecionado(null);
+  };
 
   if (carregando) {
     return <p className="text-center text-indigo-200 mt-10">Carregando...</p>;
@@ -37,7 +47,6 @@ export default function TelaHistoricoSala() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-900 text-white">
       <Header nomeSala={nomeSala} />
-
       <TabsAluno tabs={tabs} abaAtiva={abaAtiva} onChange={setAbaAtiva} />
 
       <main className="flex-grow p-10 max-w-2xl w-full mx-auto">
@@ -52,12 +61,20 @@ export default function TelaHistoricoSala() {
                   atividades.map((atividade) => (
                     <CardAtividade
                       key={atividade.id}
-                      atividade={{ ...atividade, status: "" }}
-                      onClick={null}
+                      atividade={atividade}
+                      onClick={() => setAtividadeSelecionada(atividade)}
                     />
                   ))
                 )}
               </section>
+
+              {atividadeSelecionada && (
+                <ModalDetalheAtividade
+                  atividade={atividadeSelecionada}
+                  onClose={fecharModal}
+                  modoSomenteLeitura={true}
+                />
+              )}
             </>
           )}
 
@@ -75,11 +92,18 @@ export default function TelaHistoricoSala() {
                         ...aviso,
                         enviadaEmFormatada: formatarData(aviso.enviadaEm)
                       }}
-                      onClick={null}
+                      onClick={() => setAvisoSelecionado(aviso)}
                     />
                   ))
                 )}
               </section>
+
+              {avisoSelecionado && (
+                <ModalDetalheAviso
+                  aviso={avisoSelecionado}
+                  onClose={fecharModal}
+                />
+              )}
             </>
           )}
 
@@ -87,17 +111,17 @@ export default function TelaHistoricoSala() {
             <>
               <h2 className="text-5xl font-bold text-indigo-300 mb-8">Participantes</h2>
               <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                <li className="bg-gray-800 px-6 py-5 rounded-xl shadow-md hover:shadow-indigo-500/10 transition-all">
-                  <div className="text-lg font-medium mb-1">{professor.nome}</div>
-                  <div className="text-sm text-indigo-300">Professor(a)</div>
+                <li className="bg-gray-800 px-6 py-6 rounded-2xl shadow-md transition-all hover:bg-gray-700 hover:shadow-indigo-500/10 min-h-[120px]">
+                  <div className="text-sm font-semibold text-white break-words">{professor.nome}</div>
+                  <div className="text-sm text-indigo-300 mt-1">Professor(a)</div>
                 </li>
                 {alunos.map((aluno) => (
                   <li
                     key={aluno.id}
-                    className="bg-gray-800 px-6 py-5 rounded-xl shadow-md hover:shadow-indigo-500/10 transition-all"
+                    className="bg-gray-800 px-6 py-6 rounded-2xl shadow-md transition-all hover:bg-gray-700 hover:shadow-indigo-500/10 min-h-[120px]"
                   >
-                    <div className="text-lg font-medium mb-1">{aluno.nome}</div>
-                    <div className="text-sm text-indigo-300">Aluno(a)</div>
+                    <div className="text-sm font-semibold text-white break-words">{aluno.nome}</div>
+                    <div className="text-sm text-indigo-300 mt-1">Aluno(a)</div>
                   </li>
                 ))}
               </ul>
