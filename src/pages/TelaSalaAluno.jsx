@@ -133,19 +133,15 @@ export default function TelaAlunoSala() {
               <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {colegas.map((pessoa, idx) => (
                   <li
-                    key={pessoa.id}
-                    className="bg-gray-800 px-6 py-5 rounded-xl shadow-md hover:shadow-indigo-500/10 transition-all"
-                  >
+                  key={pessoa.id}
+                  className="bg-gray-800 px-6 py-5 rounded-xl shadow-md hover:shadow-indigo-500/20 hover:bg-gray-700 hover:scale-[1.02] transition-all duration-200 ease-in-out"
+                >   
                     <div className="text-xl text-white font-medium mb-1">
                       {pessoa.nome}
                     </div>
                     <div className="text-sm text-indigo-300">
-                      {pessoa.id === perfil.id
-                        ? "Você"
-                        : idx === 0
-                        ? "Professor(a)"
-                        : "Aluno(a)"}
-                    </div>
+                        {idx === 0 ? "Professor(a)" : "Aluno(a)"}
+                      </div>
                   </li>
                 ))}
               </ul>

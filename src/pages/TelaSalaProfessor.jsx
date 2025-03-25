@@ -31,7 +31,7 @@ export default function TelaSalaProfessor() {
   const tabs = [
     { id: "atividades", label: "Atividades" },
     { id: "avisos", label: "Avisos" },
-    { id: "colegas", label: "Colegas" },
+    { id: "alunos", label: "Alunos" },
   ];
 
   if (!dados) {
@@ -117,8 +117,8 @@ export default function TelaSalaProfessor() {
             </AnimacaoEntrada>
           )}
 
-          {abaAtiva === "colegas" && (
-            <AnimacaoEntrada key="colegas">
+          {abaAtiva === "alunos" && (
+            <AnimacaoEntrada key="alunos">
               <h2 className="text-5xl font-bold text-indigo-300 mb-8">Participantes</h2>
               <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 <li className="bg-gray-800 px-6 py-5 rounded-xl shadow-md hover:shadow-indigo-500/10 transition-all">
@@ -128,8 +128,8 @@ export default function TelaSalaProfessor() {
                 {colegas.map((pessoa) => (
                   <li
                     key={pessoa.id}
-                    className="bg-gray-800 px-6 py-5 rounded-xl shadow-md hover:shadow-indigo-500/10 transition-all flex justify-between items-center"
-                  >
+                    className="bg-gray-800 px-6 py-5 rounded-xl shadow-md hover:shadow-indigo-500/20 hover:bg-gray-700 hover:scale-[1.02] transition-all duration-200 ease-in-out flex justify-between items-center"
+                >
                     <div>
                       <div className="text-lg font-medium mb-1">{pessoa.nomeCompleto}</div>
                       <div className="text-sm text-indigo-300">Aluno(a)</div>
