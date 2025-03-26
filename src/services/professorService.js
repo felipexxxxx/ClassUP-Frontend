@@ -97,3 +97,14 @@ export const removerAlunoApi = async (alunoId) => {
     },
   });
 };
+
+export const buscarResumoAtividadeApi = async (id) => {
+  const token = localStorage.getItem("token");
+  const response = await api.get(`/sala/atividades/${id}/resumo`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+

@@ -6,7 +6,8 @@ import {
   deletarAtividadeApi,
   editarAvisoApi,
   excluirAvisoApi,
-  removerAlunoApi
+  removerAlunoApi,
+  buscarResumoAtividadeApi
 } from "../services/professorService";
 
 export default function useSalaProfessor() {
@@ -17,6 +18,7 @@ export default function useSalaProfessor() {
   const [atividadeSelecionada, setAtividadeSelecionada] = useState(null);
   const [avisoSelecionado, setAvisoSelecionado] = useState(null);
   const [mensagemSucesso, setMensagemSucesso] = useState(null);
+  const [resumoAtividade, setResumoAtividade] = useState(null);
 
   useEffect(() => {
     fetchDados();
@@ -96,6 +98,15 @@ export default function useSalaProfessor() {
       console.error("Erro ao remover aluno:", err);
     }
   };
+  const selecionarAtividade = async (atividade) => {
+    setAtividadeSelecionada(atividade);
+    try {
+      const resumo = await buscarResumoAtividadeApi(atividade.id);
+      setResumoAtividade(resumo);
+    } catch (error) {
+      console.error("Erro ao buscar resumo da atividade:", error);
+    }
+  };
   
   
 
@@ -108,6 +119,8 @@ export default function useSalaProfessor() {
     setAtividadeSelecionada,
     avisoSelecionado,
     setAvisoSelecionado,
+    selecionarAtividade,
+    resumoAtividade,
     editarAtividade,
     excluirAtividade,
     editarAviso,

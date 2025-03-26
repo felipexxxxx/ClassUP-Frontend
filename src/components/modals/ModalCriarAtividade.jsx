@@ -14,7 +14,7 @@ export default function ModalCriarAtividade({ onClose, onSucesso }) {
   });
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState(null);
-  
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -62,8 +62,6 @@ export default function ModalCriarAtividade({ onClose, onSucesso }) {
           ✕
         </button>
 
-        <h2 className="text-3xl font-bold text-indigo-300 mb-6">Criar Nova Atividade</h2>
-
         <div className="space-y-4">
           <input
             name="titulo"
@@ -102,11 +100,9 @@ export default function ModalCriarAtividade({ onClose, onSucesso }) {
           <button
             onClick={handleSubmit}
             disabled={carregando}
-            className={`px-6 py-2 rounded bg-green-600 hover:bg-green-500 text-white font-medium transition ${
-              carregando ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            className={`px-6 py-2 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition `}
           >
-            {carregando ? "Salvando..." : "Criar Atividade"}
+            Criar Atividade
           </button>
         </div>
       </motion.div>

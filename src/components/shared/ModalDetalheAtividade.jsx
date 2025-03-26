@@ -7,7 +7,8 @@ export default function ModalDetalheAtividade({
   onConfirmar,
   onCancelar,
   isProfessor = false,
-  modoSomenteLeitura = false
+  modoSomenteLeitura = false,
+  resumo = null
 }) {
   console.log("Atividade recebida:", atividade);
 
@@ -56,6 +57,11 @@ export default function ModalDetalheAtividade({
           📍 <span className="font-medium text-white">Local:</span> {atividade.local || "Não informado"}
         </p>
 
+        {isProfessor && resumo && (
+          <div className="mb-6 text-lg text-green-300">
+            ✅ <span className="font-medium text-white">Presenças confirmadas:</span> {resumo.confirmados}
+          </div>
+        )}
         {/* Esconde status e botões se modoSomenteLeitura for true OU se for professor */}
         {!isProfessor && !modoSomenteLeitura && (
           <>

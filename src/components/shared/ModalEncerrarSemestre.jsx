@@ -28,7 +28,7 @@ export default function ModalEncerrarSemestre({ onClose, onConfirmar }) {
           </button>
           <button
             onClick={onConfirmar}
-            className="px-4 py-2 rounded bg-red-800 hover:bg-red-700 text-white font-semibold"
+            className="px-4 py-2 rounded bg-red-700 hover:bg-red-400 text-white font-semibold"
           >
             Sim, encerrar
           </button>

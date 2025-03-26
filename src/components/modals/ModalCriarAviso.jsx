@@ -84,11 +84,9 @@ export default function ModalCriarAviso({ onClose, onSucesso }) {
           <button
             onClick={handleSubmit}
             disabled={carregando}
-            className={`px-6 py-2 rounded bg-green-600 hover:bg-green-500 text-white font-medium transition ${
-              carregando ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            className={`px-6 py-2 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition`}
           >
-            {carregando ? "Salvando..." : "Criar Aviso"}
+            Criar Aviso
           </button>
         </div>
       </motion.div>

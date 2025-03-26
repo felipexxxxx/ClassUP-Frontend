@@ -110,7 +110,9 @@ export default function TelaHistoricoSala() {
 
             {abaAtiva === "colegas" && (
               <>
-                <h2 className="text-5xl font-bold text-indigo-300 mb-8">Participantes</h2>
+                <h2 className="text-5xl font-bold text-indigo-300 mb-8">
+                  Alunos <span className="text-indigo-400 text-2xl">({alunos.length + 1})</span>
+                </h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                   {/* Card do professor */}
                   <li className="bg-gray-800 px-6 py-6 min-h-[120px] rounded-2xl shadow-md hover:shadow-indigo-500/20 hover:bg-gray-700 hover:scale-[1.02] transition-all duration-200 ease-in-out">

@@ -17,22 +17,31 @@ export default function ModalEditarAtividade({ atividade, onClose, onSalvar }) {
     const dataCorrigida = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
       .toISOString()
       .slice(0, 16);
-  
+
     const dados = {
       titulo,
       descricao,
       local,
       data: dataCorrigida,
     };
-  
+
     onSalvar(atividade.id, dados);
     onClose();
   };
-  
+
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) onClose();
+  };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
-      <div className="bg-gray-900 p-6 rounded-xl shadow-lg w-full max-w-lg">
+    <div
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50"
+      onClick={handleOverlayClick}
+    >
+      <div
+        className="bg-gray-900 p-6 rounded-xl shadow-lg w-full max-w-lg"
+        onClick={(e) => e.stopPropagation()}
+      >
         <h2 className="text-2xl text-indigo-300 font-bold mb-4">Editar Atividade</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
@@ -67,20 +76,21 @@ export default function ModalEditarAtividade({ atividade, onClose, onSalvar }) {
           />
           {erro && <p className="text-red-400 font-medium text-center">{erro}</p>}
 
-          <div className="flex justify-end gap-4">
+          <div className="flex justify-center gap-4">
             <button
               type="button"
               onClick={onClose}
-              className="text-gray-300 hover:text-white"
+              className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded transition"
             >
               Cancelar
             </button>
             <button
-              type="submit"
-              className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-500"
-            >
-              Salvar
-            </button>
+                type="submit"
+                className="px-6 py-2 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition"
+                >
+                Salvar Alterações
+                </button>
+
           </div>
         </form>
       </div>

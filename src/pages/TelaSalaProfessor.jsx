@@ -27,6 +27,8 @@ export default function TelaSalaProfessor() {
     setAtividadeSelecionada,
     avisoSelecionado,
     setAvisoSelecionado,
+    selecionarAtividade,
+    resumoAtividade,
     editarAtividade,
     excluirAtividade,
     editarAviso,
@@ -34,8 +36,8 @@ export default function TelaSalaProfessor() {
     removerAluno,
     abaAtiva,
     setAbaAtiva,
-    carregando,
   } = useSalaProfessor();
+  
 
   const [mostrarModalCriarAtividade, setMostrarModalCriarAtividade] = useState(false);
   const [mostrarModalCriarAviso, setMostrarModalCriarAviso] = useState(false);
@@ -59,7 +61,7 @@ export default function TelaSalaProfessor() {
     );
   }
 
-  const { nome: nomeSala, codigoAcesso, atividades = [], avisos = [], alunos: colegas = [], professor } = dados;
+  const { nome: nomeSala, codigoAcesso, atividades = [], avisos = [], alunos = [], professor } = dados;
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-900 text-white">
@@ -95,7 +97,7 @@ export default function TelaSalaProfessor() {
                       key={atividade.id}
                       atividade={atividade}
                       isProfessor
-                      onClick={() => setAtividadeSelecionada(atividade)}
+                      onClick={() => selecionarAtividade(atividade)}
                       onEdit={() => setAtividadeEditando(atividade)}
                       onDelete={() => setAtividadeExcluindo(atividade)}
                     />
@@ -105,10 +107,13 @@ export default function TelaSalaProfessor() {
               <AnimatePresence>
                 {atividadeSelecionada && (
                   <ModalDetalheAtividade
-                    atividade={atividadeSelecionada}
-                    onClose={() => setAtividadeSelecionada(null)}
-                    isProfessor
-                  />
+                  atividade={atividadeSelecionada}
+                  onClose={() => {
+                    setAtividadeSelecionada(null);
+                  }}
+                  isProfessor
+                  resumo={resumoAtividade}
+                />
                 )}
               </AnimatePresence>
               {mostrarModalCriarAtividade && (
@@ -214,7 +219,9 @@ export default function TelaSalaProfessor() {
 
           {abaAtiva === "alunos" && (
             <AnimacaoEntrada key="alunos">
-              <h2 className="text-5xl font-bold text-indigo-300 mb-8">Participantes</h2>
+              <h2 className="text-5xl font-bold text-indigo-300 mb-8">
+                  Alunos <span className="text-indigo-400 text-2xl">({alunos.length + 1})</span>
+                </h2>
               <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {/* Card do professor */}
                 <li className="bg-gray-800 px-6 py-6 min-h-[120px] rounded-2xl shadow-md hover:shadow-indigo-500/20 hover:bg-gray-700 hover:scale-[1.02] transition-all duration-200 ease-in-out">
@@ -225,7 +232,7 @@ export default function TelaSalaProfessor() {
                 </li>
 
                 {/* Cards dos alunos */}
-                {colegas.map((pessoa) => (
+                {alunos.map((pessoa) => (
                   <li
                     key={pessoa.id}
                     className="bg-gray-800 px-6 py-6 min-h-[120px] rounded-2xl shadow-md hover:shadow-indigo-500/20 hover:bg-gray-700 hover:scale-[1.02] transition-all duration-200 ease-in-out flex justify-between items-start"

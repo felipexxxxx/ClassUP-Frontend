@@ -68,14 +68,14 @@ export default function TelaPainelProfessor() {
           <div className="flex gap-4">
             <button
               onClick={() => setMostrarModalCriar(true)}
-              className="bg-green-800 hover:bg-green-600 px-6 py-2 rounded-2xl text-white font-semibold shadow-md transition-all tracking-wide"
+              className="bg-indigo-600 hover:bg-indigo-500 px-6 py-2 rounded-2xl text-white font-semibold shadow-md transition-all tracking-wide"
             >
               + Criar nova sala
             </button>
 
             <button
               onClick={() => setMostrarModalEncerrar(true)}
-              className="bg-red-900 hover:bg-red-800 px-6 py-2 rounded-2xl text-white font-semibold shadow-md transition-all tracking-wide"
+              className="bg-red-900 hover:bg-red-700 px-6 py-2 rounded-2xl text-white font-semibold shadow-md transition-all tracking-wide"
             >
               Encerrar semestre
             </button>

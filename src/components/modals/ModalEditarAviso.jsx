@@ -7,20 +7,16 @@ export default function ModalEditarAviso({ aviso, onClose, onSalvar }) {
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState(null);
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
-  
     if (!titulo || !mensagem) {
       setErro("Preencha todos os campos!");
       return;
     }
-  
+
     onSalvar(aviso.id, { titulo, mensagem });
     onClose();
   };
-  
-  
 
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) onClose();
@@ -35,6 +31,7 @@ export default function ModalEditarAviso({ aviso, onClose, onSalvar }) {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 30 }}
+        onClick={(e) => e.stopPropagation()}
         className="bg-gray-900 text-white p-8 rounded-2xl max-w-xl w-full shadow-lg relative"
       >
         <button
@@ -67,18 +64,16 @@ export default function ModalEditarAviso({ aviso, onClose, onSalvar }) {
             <button
               type="button"
               onClick={onClose}
-              className="text-gray-300 hover:text-white"
+              className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded transition"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={carregando}
-              className={`px-6 py-2 rounded bg-green-600 hover:bg-green-500 text-white font-medium transition ${
-                carregando ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              className={`px-6 py-2 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition`}
             >
-              {carregando ? "Salvando..." : "Salvar Alterações"}
+              Salvar Alterações
             </button>
           </div>
           {erro && <p className="text-red-400 font-medium text-center">{erro}</p>}

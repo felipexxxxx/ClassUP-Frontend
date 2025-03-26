@@ -31,7 +31,7 @@ export default function ModalCriarSala({
           </button>
           <button
             onClick={onConfirmar}
-            className="px-4 py-2 rounded bg-green-800 hover:bg-green-700 text-white font-semibold"
+            className="px-4 py-2 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-semibold"
           >
             Criar
           </button>
