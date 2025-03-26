@@ -6,8 +6,8 @@ import AnimacaoEntrada from "../components/shared/AnimacaoEntrada";
 import { motion, AnimatePresence } from "framer-motion";
 import usePainelProfessor from "../hooks/usePainelProfessor";
 import { criarSala, encerrarSemestre } from "../services/professorService";
-import ModalCriarSala from "../components/shared/ModalCriarSala";
-import ModalEncerrarSemestre from "../components/shared/ModalEncerrarSemestre";
+import ModalCriarSala from "../components/modals/ModalCriarSala";
+import ModalEncerrarSemestre from "../components/modals/ModalEncerrarSemestre";
 
 export default function TelaPainelProfessor() {
   const navigate = useNavigate();

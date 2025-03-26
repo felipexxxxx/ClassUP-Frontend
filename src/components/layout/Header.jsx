@@ -3,7 +3,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { AnimatePresence } from "framer-motion";
 import PerfilDropdown from "./PerfilDropdown";
-import ModalLogout from "../shared/ModalLogout";
+import ModalLogout from "../modals/ModalLogout";
 import useAuth from "../../hooks/useAuth";
 import { useState } from "react";
 
