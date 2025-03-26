@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { buscarSalaPorId, editarAtividadeApi, deletarAtividadeApi} from "../services/professorService";
+import {
+  buscarSalaPorId,
+  editarAtividadeApi,
+  deletarAtividadeApi,
+  editarAvisoApi,
+  excluirAvisoApi,
+  removerAlunoApi
+} from "../services/professorService";
 
 export default function useSalaProfessor() {
   const { id } = useParams();
@@ -35,6 +42,17 @@ export default function useSalaProfessor() {
     }
   };
 
+  const editarAtividade = async (id, dados) => {
+    try {
+      await editarAtividadeApi(id, dados);
+      setMensagemSucesso("Atividade atualizada com sucesso!");
+      setTimeout(() => setMensagemSucesso(null), 3000);
+      atualizarSala();
+    } catch (err) {
+      console.error("Erro ao editar atividade:", err);
+    }
+  };
+
   const excluirAtividade = async (id) => {
     try {
       await deletarAtividadeApi(id);
@@ -46,16 +64,40 @@ export default function useSalaProfessor() {
     }
   };
 
-  const editarAtividade = async (id, dados) => {
+  const editarAviso = async (id, dados) => {
     try {
-      await editarAtividadeApi(id, dados);
-      setMensagemSucesso("Atividade atualizada com sucesso!");
+      await editarAvisoApi(id, dados);
+      setMensagemSucesso("Aviso atualizado com sucesso!");
       setTimeout(() => setMensagemSucesso(null), 3000);
-      atualizarSala(); // atualiza a lista após edição
+      atualizarSala();
     } catch (err) {
-      console.error("Erro ao editar atividade:", err);
+      console.error("Erro ao editar aviso:", err);
     }
   };
+
+  const excluirAviso = async (id) => {
+    try {
+      await excluirAvisoApi(id);
+      setMensagemSucesso("Aviso excluído com sucesso!");
+      setTimeout(() => setMensagemSucesso(null), 3000);
+      atualizarSala();
+    } catch (err) {
+      console.error("Erro ao excluir aviso:", err);
+    }
+  };
+
+  const removerAluno = async (alunoId) => {
+    try {
+      await removerAlunoApi(alunoId);
+      setMensagemSucesso("Aluno removido com sucesso!");
+      atualizarSala(); // atualiza lista de alunos
+      setTimeout(() => setMensagemSucesso(null), 3000);
+    } catch (err) {
+      console.error("Erro ao remover aluno:", err);
+    }
+  };
+  
+  
 
   return {
     dados,
@@ -65,11 +107,12 @@ export default function useSalaProfessor() {
     atividadeSelecionada,
     setAtividadeSelecionada,
     avisoSelecionado,
-    editarAtividade,
     setAvisoSelecionado,
+    editarAtividade,
     excluirAtividade,
-    excluirAviso: (id) => console.log("Excluir aviso", id),
-    removerAluno: (id) => console.log("Remover aluno", id),
+    editarAviso,
+    excluirAviso,
+    removerAluno,
     abaAtiva,
     setAbaAtiva,
     carregando,

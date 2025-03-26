@@ -1,16 +1,26 @@
-// components/modals/ModalConfirmarExclusao.jsx
 import React from "react";
+import { motion } from "framer-motion";
 
-export default function ModalConfirmarExclusao({ titulo, mensagem, onClose, onConfirm }) {
+export default function ModalConfirmarExclusao({
+  titulo,
+  mensagem,
+  onClose,
+  onConfirm,
+}) {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-gray-900 p-6 rounded-xl w-full max-w-md shadow-lg">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        className="bg-gray-900 text-white p-8 rounded-xl max-w-md w-full shadow-xl"
+      >
         <h2 className="text-2xl font-bold text-red-400 mb-4">{titulo}</h2>
-        <p className="text-gray-300 mb-6">{mensagem}</p>
+        <p className="mb-6 text-gray-300">{mensagem}</p>
         <div className="flex justify-end gap-4">
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white transition"
+            className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded transition"
           >
             Cancelar
           </button>
@@ -21,7 +31,7 @@ export default function ModalConfirmarExclusao({ titulo, mensagem, onClose, onCo
             Confirmar
           </button>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

@@ -5,20 +5,26 @@ export default function ModalEditarAtividade({ atividade, onClose, onSalvar }) {
   const [descricao, setDescricao] = useState(atividade.descricao);
   const [local, setLocal] = useState(atividade.local);
   const [data, setData] = useState(atividade.data);
+  const [erro, setErro] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!titulo || !descricao || !local || !data) {
+      setErro("Preencha todos os campos!");
+      return;
+    }
     const date = new Date(data);
     const dataCorrigida = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
-    .toISOString()
-    .slice(0, 16); // corta os segundos
-
+      .toISOString()
+      .slice(0, 16);
+  
     const dados = {
       titulo,
       descricao,
       local,
       data: dataCorrigida,
     };
+  
     onSalvar(atividade.id, dados);
     onClose();
   };
@@ -59,6 +65,8 @@ export default function ModalEditarAtividade({ atividade, onClose, onSalvar }) {
             className="bg-gray-800 p-3 rounded text-white"
             required
           />
+          {erro && <p className="text-red-400 font-medium text-center">{erro}</p>}
+
           <div className="flex justify-end gap-4">
             <button
               type="button"

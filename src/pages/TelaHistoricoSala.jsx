@@ -9,6 +9,7 @@ import CardAviso from "../components/shared/CardAviso";
 import ModalDetalheAviso from "../components/shared/ModalDetalheAviso";
 import AnimacaoEntrada from "../components/shared/AnimacaoEntrada";
 import useHistorico from "../hooks/useHistorico";
+import formatarData from "../utils/formatarData";
 
 export default function TelaHistoricoSala() {
   const { id } = useParams();
@@ -81,7 +82,7 @@ export default function TelaHistoricoSala() {
           {abaAtiva === "avisos" && (
             <>
               <h2 className="text-5xl font-bold text-indigo-300 mb-8">Avisos</h2>
-              <section className="grid gap-8">
+              <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {avisos.length === 0 ? (
                   <p className="text-2xl text-indigo-200">Nenhum aviso encontrado.</p>
                 ) : (
@@ -107,26 +108,34 @@ export default function TelaHistoricoSala() {
             </>
           )}
 
-          {abaAtiva === "colegas" && (
-            <>
-              <h2 className="text-5xl font-bold text-indigo-300 mb-8">Participantes</h2>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                <li className="bg-gray-800 px-6 py-6 rounded-2xl shadow-md transition-all hover:bg-gray-700 hover:shadow-indigo-500/10 min-h-[120px]">
-                  <div className="text-sm font-semibold text-white break-words">{professor.nome}</div>
-                  <div className="text-sm text-indigo-300 mt-1">Professor(a)</div>
-                </li>
-                {alunos.map((aluno) => (
-                  <li
-                    key={aluno.id}
-                    className="bg-gray-800 px-6 py-6 rounded-2xl shadow-md transition-all hover:bg-gray-700 hover:shadow-indigo-500/10 min-h-[120px]"
-                  >
-                    <div className="text-sm font-semibold text-white break-words">{aluno.nome}</div>
-                    <div className="text-sm text-indigo-300 mt-1">Aluno(a)</div>
+            {abaAtiva === "colegas" && (
+              <>
+                <h2 className="text-5xl font-bold text-indigo-300 mb-8">Participantes</h2>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                  {/* Card do professor */}
+                  <li className="bg-gray-800 px-6 py-6 min-h-[120px] rounded-2xl shadow-md hover:shadow-indigo-500/20 hover:bg-gray-700 hover:scale-[1.02] transition-all duration-200 ease-in-out">
+                    <div className="text-xl font-semibold text-white break-words mb-1">
+                      {professor.nome}
+                    </div>
+                    <div className="text-sm text-indigo-300">Professor(a)</div>
                   </li>
-                ))}
-              </ul>
-            </>
-          )}
+
+                  {/* Cards dos alunos */}
+                  {alunos.map((aluno) => (
+                    <li
+                      key={aluno.id}
+                      className="bg-gray-800 px-6 py-6 min-h-[120px] rounded-2xl shadow-md hover:shadow-indigo-500/20 hover:bg-gray-700 hover:scale-[1.02] transition-all duration-200 ease-in-out"
+                    >
+                      <div className="text-xl font-semibold text-white break-words mb-1">
+                        {aluno.nome}
+                      </div>
+                      <div className="text-sm text-indigo-300">Aluno(a)</div>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+
         </AnimacaoEntrada>
       </main>
 

@@ -99,7 +99,7 @@ export default function TelaAlunoSala() {
           {abaAtiva === "avisos" && (
             <AnimacaoEntrada key="avisos">
               <h2 className="text-5xl font-bold text-indigo-300 mb-8">Avisos</h2>
-              <section className="grid gap-8">
+              <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {avisos.length === 0 ? (
                   <p className="text-xl text-indigo-200">Nenhum aviso encontrado.</p>
                 ) : (
@@ -127,26 +127,28 @@ export default function TelaAlunoSala() {
             </AnimacaoEntrada>
           )}
 
-              {abaAtiva === "colegas" && (
-                <AnimacaoEntrada key="colegas">
-                  <h2 className="text-5xl font-bold text-indigo-300 mb-8">Colegas de Sala</h2>
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                    {colegas.map((pessoa, idx) => (
-                      <li
-                        key={pessoa.id}
-                        className="bg-gray-800 px-6 py-6 min-h-[120px] rounded-2xl shadow-md hover:shadow-indigo-500/20 hover:bg-gray-700 hover:scale-[1.02] transition-all duration-200 ease-in-out"
-                      >
-                        <div className="text-sm font-semibold text-white break-words mb-1">
-                          {pessoa.nome}
-                        </div>
-                        <div className="text-sm text-indigo-300">
-                          {idx === 0 ? "Professor(a)" : "Aluno(a)"}
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </AnimacaoEntrada>
-              )}
+                {abaAtiva === "colegas" && (
+                  <AnimacaoEntrada key="colegas">
+                    <h2 className="text-5xl font-bold text-indigo-300 mb-8">Colegas de Sala</h2>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                      {colegas.map((pessoa, idx) => (
+                        <li
+                          key={pessoa.id}
+                          className="bg-gray-800 px-6 py-6 min-h-[120px] rounded-2xl shadow-md hover:shadow-indigo-500/20 hover:bg-gray-700 hover:scale-[1.02] transition-all duration-200 ease-in-out"
+                        >
+                          <div className="text-xl font-semibold text-white break-words mb-1">
+                            {pessoa.nome}
+                          </div>
+                          <div className="text-sm text-indigo-300">
+                            {idx === 0 ? "Professor(a)" : "Aluno(a)"}
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </AnimacaoEntrada>
+                )}
+
+
         </AnimatePresence>
       </main>
 

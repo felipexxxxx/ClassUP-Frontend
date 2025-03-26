@@ -1,43 +1,39 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useParams } from "react-router-dom";
-import { criarAtividadeApi } from "../../services/professorService";
+import { criarAvisoApi } from "../../services/professorService";
 
 
-export default function ModalCriarAtividade({ onClose, onSucesso }) {
+export default function ModalCriarAviso({ onClose, onSucesso }) {
   const { id: salaId } = useParams();
   const [form, setForm] = useState({
     titulo: "",
-    descricao: "",
-    local: "",
-    dataHora: "",
+    mensagem: "",
   });
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState(null);
-  
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async () => {
-    if (!form.titulo || !form.descricao || !form.local || !form.dataHora) {
-      setErro("Todos os campos são obrigatórios.");
+    if (!form.titulo || !form.mensagem) {
+      setErro("Preencha todos os campos!");
       return;
     }
-  
-    setErro(null);
+
     setCarregando(true);
     try {
-      await criarAtividadeApi({ ...form, sala: { id: salaId } });
-      onSucesso("Atividade criada com sucesso!");
+      await criarAvisoApi({ ...form, sala: { id: salaId } });
+      onSucesso("Aviso criado com sucesso!");
       onClose();
     } catch (error) {
-      console.error("Erro ao criar atividade:", error);
+      console.error("Erro ao criar aviso:", error);
     } finally {
       setCarregando(false);
     }
   };
-  
   
 
   const handleOverlayClick = (e) => {
@@ -62,7 +58,7 @@ export default function ModalCriarAtividade({ onClose, onSucesso }) {
           ✕
         </button>
 
-        <h2 className="text-3xl font-bold text-indigo-300 mb-6">Criar Nova Atividade</h2>
+        <h2 className="text-3xl font-bold text-indigo-300 mb-6">Criar Novo Aviso</h2>
 
         <div className="space-y-4">
           <input
@@ -74,28 +70,14 @@ export default function ModalCriarAtividade({ onClose, onSucesso }) {
             className="w-full px-4 py-2 rounded bg-gray-800 text-white"
           />
           <textarea
-            name="descricao"
-            placeholder="Descrição"
-            value={form.descricao}
+            name="mensagem"
+            placeholder="Mensagem"
+            value={form.mensagem}
             onChange={handleChange}
             className="w-full px-4 py-2 rounded bg-gray-800 text-white"
           />
-          <input
-            name="local"
-            type="text"
-            placeholder="Local"
-            value={form.local}
-            onChange={handleChange}
-            className="w-full px-4 py-2 rounded bg-gray-800 text-white"
-          />
-          <input
-            name="dataHora"
-            type="datetime-local"
-            value={form.dataHora}
-            onChange={handleChange}
-            className="w-full px-4 py-2 rounded bg-gray-800 text-white"
-          />
-          {erro && <p className="text-red-400 font-medium">{erro}</p>}
+          {erro && <p className="text-red-400 font-medium text-center">{erro}</p>}
+
         </div>
 
         <div className="mt-6 flex justify-center">
@@ -106,7 +88,7 @@ export default function ModalCriarAtividade({ onClose, onSucesso }) {
               carregando ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
-            {carregando ? "Salvando..." : "Criar Atividade"}
+            {carregando ? "Salvando..." : "Criar Aviso"}
           </button>
         </div>
       </motion.div>

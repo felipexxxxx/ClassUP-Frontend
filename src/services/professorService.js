@@ -34,7 +34,7 @@ export async function buscarSalaPorId(salaId) {
   return response.data;
 }
 
-export async function criarAtividade(atividade) {
+export async function criarAtividadeApi(atividade) {
   const token = localStorage.getItem("token");
   const response = await api.post("/sala/atividades", atividade, {
     headers: { Authorization: `Bearer ${token}` },
@@ -61,4 +61,39 @@ export async function deletarAtividadeApi(id) {
 }
 
 
+export const criarAvisoApi = async (dados) => {
+  const token = localStorage.getItem("token");
+  return await api.post("/sala/avisos", dados, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 
+export const editarAvisoApi = async (id, dados) => {
+  const token = localStorage.getItem("token");
+  return await api.put(`/sala/avisos/${id}`, dados, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const excluirAvisoApi = async (id) => {
+  const token = localStorage.getItem("token");
+  return await api.delete(`/sala/avisos/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+
+export const removerAlunoApi = async (alunoId) => {
+  const token = localStorage.getItem("token");
+  return await api.delete(`/sala/aluno/${alunoId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
