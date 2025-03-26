@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import {
-  buscarAtividades,
-  buscarColegas,
-  buscarAvisos,
+  buscarSalaCompletaDoAluno,
   confirmarPresencaAtividade,
   cancelarPresencaAtividade
 } from "../services/alunoService";
@@ -16,58 +14,51 @@ export default function useAlunoSala() {
   const [mensagemSucesso, setMensagemSucesso] = useState("");
   const [atividadeSelecionada, setAtividadeSelecionada] = useState(null);
   const [avisoSelecionado, setAvisoSelecionado] = useState(null);
-  
-
   const [nomeSala, setNomeSala] = useState("");
 
   useEffect(() => {
     carregarTudo();
   }, []);
 
-  
   const carregarTudo = async () => {
-    const [perfilData, atividadesData, salaData, avisosData] = await Promise.all([
+    const [perfilData, salaData] = await Promise.all([
       buscarPerfil(),
-      buscarAtividades(),
-      buscarColegas(),
-      buscarAvisos()
+      buscarSalaCompletaDoAluno()
     ]);
 
-    const exibirMensagem = (msg) => {
-      setMensagemSucesso(msg);
-      setTimeout(() => setMensagemSucesso(""), 2000);
-    };
-  
-    const atualizarStatusAtividade = (id, novoStatus) => {
-      setAtividades((prev) =>
-        prev.map((a) =>
-          a.id === id ? { ...a, status: novoStatus } : a
-        )
-      );
-    };
-
     setPerfil(perfilData);
-    setAtividades(atividadesData);
-    setAvisos(avisosData); 
-    setColegas([salaData.professor, ...salaData.alunos]);
     setNomeSala(salaData.nome);
+    setAtividades(salaData.atividades || []);
+    console.log("Atividades recebidas:", salaData.atividades);
+    setAvisos(salaData.avisos || []);
+    setColegas([salaData.professor, ...(salaData.alunos || [])]);
   };
 
   const confirmarPresenca = async (id) => {
-    await confirmarPresencaAtividade(id);
-    await atualizarAtividades("Presença confirmada com sucesso!");
+    try {
+      await confirmarPresencaAtividade(id);
+      await atualizarAtividades();
+      setMensagemSucesso("Presença confirmada com sucesso!");
+      setAtividadeSelecionada(null);
+    } catch (err) {
+      console.error("Erro ao confirmar presença:", err);
+    }
   };
 
   const cancelarPresenca = async (id) => {
-    await cancelarPresencaAtividade(id);
-    await atualizarAtividades("Presença cancelada com sucesso!");
+    try {
+      await cancelarPresencaAtividade(id);
+      await atualizarAtividades();
+      setMensagemSucesso("Presença cancelada com sucesso!");
+      setAtividadeSelecionada(null);
+    } catch (err) {
+      console.error("Erro ao cancelar presença:", err);
+    }
   };
 
-  const atualizarAtividades = async (mensagem) => {
-    const novasAtividades = await buscarAtividades();
-    setAtividades(novasAtividades);
-    setMensagemSucesso(mensagem);
-    setAtividadeSelecionada(null);
+  const atualizarAtividades = async () => {
+    const salaAtualizada = await buscarSalaCompletaDoAluno();
+    setAtividades(salaAtualizada.atividades || []);
   };
 
   return {

@@ -22,7 +22,7 @@ export default function AbaAlunosProfessor({ dados, modais, setModais, removerAl
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         <li className="bg-gray-800 px-6 py-6 min-h-[120px] rounded-2xl shadow-md hover:shadow-indigo-500/20 hover:bg-gray-700 hover:scale-[1.02] transition-all duration-200 ease-in-out">
           <div className="text-xl font-semibold text-white mb-1 break-words">
-            {professor.nomeCompleto}
+            {professor.nome}
           </div>
           <div className="text-sm text-indigo-300">Professor(a)</div>
         </li>
@@ -34,7 +34,7 @@ export default function AbaAlunosProfessor({ dados, modais, setModais, removerAl
           >
             <div className="pr-4">
               <div className="text-xl font-semibold text-white mb-1 break-words">
-                {pessoa.nomeCompleto}
+                {pessoa.nome}
               </div>
               <div className="text-sm text-indigo-300">Aluno(a)</div>
             </div>
@@ -55,7 +55,7 @@ export default function AbaAlunosProfessor({ dados, modais, setModais, removerAl
           mensagem={
             removendo
               ? "Removendo aluno, aguarde..."
-              : `Deseja realmente remover o aluno "${modais.alunoRemovendo.nomeCompleto}" da sala?`
+              : `Deseja realmente remover o aluno "${modais.alunoRemovendo.nome}" da sala?`
           }
           onClose={() => !removendo && setModais({ ...modais, alunoRemovendo: null })}
           onConfirm={handleRemoverAluno}

@@ -16,14 +16,14 @@ export default function ModalDetalheAtividade({
     ? formatarData(atividade.data)
     : "Data não informada";
 
+  const status = atividade.status?.toUpperCase() || "PENDENTE";
+  const desabilitarBotoes = status !== "PENDENTE" || modoSomenteLeitura;
+
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
   };
-
-  const desabilitarBotoes =
-    atividade.status !== "PENDENTE" || modoSomenteLeitura;
 
   return (
     <div
@@ -54,7 +54,8 @@ export default function ModalDetalheAtividade({
         </p>
 
         <p className="text-lg text-indigo-300 mb-6">
-          📍 <span className="font-medium text-white">Local:</span> {atividade.local || "Não informado"}
+          📍 <span className="font-medium text-white">Local:</span>{" "}
+          {atividade.local || "Não informado"}
         </p>
 
         {isProfessor && resumo && (
@@ -62,22 +63,21 @@ export default function ModalDetalheAtividade({
             ✅ <span className="font-medium text-white">Presenças confirmadas:</span> {resumo.confirmados}
           </div>
         )}
-        
-        {/* Esconde status e botões se modoSomenteLeitura for true OU se for professor */}
+
         {!isProfessor && !modoSomenteLeitura && (
           <>
             <div className="mb-6">
               <span className="text-white font-semibold mr-2">Status presença:</span>
               <span
                 className={`font-semibold ${
-                  atividade.status === "CONFIRMADO"
+                  status === "CONFIRMADO"
                     ? "text-green-400"
-                    : atividade.status === "CANCELADO"
+                    : status === "CANCELADO"
                     ? "text-red-400"
                     : "text-gray-400"
                 }`}
               >
-                {atividade.status || "PENDENTE"}
+                {status}
               </span>
             </div>
 

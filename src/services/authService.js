@@ -5,20 +5,12 @@ export async function loginUser(credenciais) {
   return response.data.accessToken;
 }
 
-
-export async function buscarSalaAluno(token) {
-  return await api.get("/aluno/sala", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-}
-
 export async function buscarPerfil() {
   const res = await api.get("/user");
   return res.data;
 }
 
-export async function logoutUsuario(token) {
-  await api.post("/user/logout", null, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+export async function logoutUsuario() {
+  await api.post("/user/logout");
 }
+

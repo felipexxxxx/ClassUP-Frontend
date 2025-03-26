@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser, buscarSalaAluno, logoutUsuario } from "../services/authService";
+import { loginUser, logoutUsuario } from "../services/authService";
+import { buscarSalaCompletaDoAluno } from "../services/alunoService";
 import jwtDecode from "jwt-decode";
 
 export default function useAuth() {
@@ -24,8 +25,6 @@ export default function useAuth() {
       }
 
       localStorage.setItem("token", token);
-      const { role } = jwtDecode(token);
-
       setMensagem("Login realizado com sucesso!");
       setSucesso(true);
       setTimeout(() => setCarregandoRedirect(true), 850);
@@ -55,43 +54,38 @@ export default function useAuth() {
   };
 
   const redirecionarPorRole = async () => {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    navigate("/login");
-    return;
-  }
-
-  try {
-    const { role } = jwtDecode(token);
-
-    if (role === "ALUNO") {
-      try {
-        const response = await buscarSalaAluno(token);
-
-        if (response?.data) {
-          navigate("/aluno/sala");
-        } else {
-          navigate("/aluno/entrar");
-        }
-      } catch (err) {
-        if (err.response?.status === 400) {
-          navigate("/aluno/entrar");
-        } else {
-          console.error("Erro inesperado ao buscar sala do aluno:", err);
-          navigate("/login");
-        }
-      }
-    } else if (role === "PROFESSOR") {
-      navigate("/professor/painel");
-    } else {
-      navigate("/login"); 
+    const token = localStorage.getItem("token");
+  
+    if (!token) {
+      navigate("/login");
+      return;
     }
-  } catch (error) {
-    console.error("Erro ao decodificar token ou redirecionar:", error);
-    navigate("/login");
-  }
-};
+  
+    try {
+      const { role } = jwtDecode(token);
+  
+      if (role === "ALUNO") {
+        try {
+          await buscarSalaCompletaDoAluno();
+          navigate("/aluno/sala");
+        } catch (err) {
+          if (err.response?.status === 400 || err.response?.status === 404) {
+            navigate("/aluno/entrar");
+          } else {
+            console.error("Erro inesperado ao buscar sala do aluno:", err);
+            navigate("/login");
+          }
+        }
+      } else if (role === "PROFESSOR") {
+        navigate("/professor/painel");
+      } else {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("Erro ao decodificar token ou redirecionar:", error);
+      navigate("/login");
+    }
+  };
 
   return {
     mensagem,

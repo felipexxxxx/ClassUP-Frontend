@@ -9,9 +9,9 @@ import useAlunoSala from "../hooks/useAlunoSala";
 import AbaAtividadesAluno from "../components/aluno/AbaAtividadesAluno";
 import AbaAvisosAluno from "../components/aluno/AbaAvisosAluno";
 import AbaAlunosAluno from "../components/aluno/AbaAlunosAluno";
+import ModalDetalheAtividade from "../components/modals/ModalDetalheAtividade";
 
 export default function TelaAlunoSala() {
-
   const {
     perfil,
     nomeSala,
@@ -26,8 +26,9 @@ export default function TelaAlunoSala() {
     confirmarPresenca,
     cancelarPresenca,
     bloqueado,
-    colegas, 
+    colegas,
   } = useAlunoSala();
+
   const professor = colegas?.[0];
   const alunos = colegas?.slice(1) || [];
 
@@ -99,6 +100,18 @@ export default function TelaAlunoSala() {
           )}
         </AnimatePresence>
       </main>
+
+      {/* Modal de Detalhes da Atividade */}
+      {atividadeSelecionada && (
+        <ModalDetalheAtividade
+          atividade={atividadeSelecionada}
+          onClose={() => setAtividadeSelecionada(null)}
+          onConfirmar={() => confirmarPresenca(atividadeSelecionada.id)}
+          onCancelar={() => cancelarPresenca(atividadeSelecionada.id)}
+          modoSomenteLeitura={false}
+          isProfessor={false}
+        />
+      )}
 
       <Footer />
     </div>
