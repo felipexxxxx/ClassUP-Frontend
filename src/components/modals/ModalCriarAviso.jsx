@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { useParams } from "react-router-dom";
 import { criarAvisoApi } from "../../services/professorService";
 
-
 export default function ModalCriarAviso({ onClose, onSucesso }) {
   const { id: salaId } = useParams();
   const [form, setForm] = useState({
@@ -23,6 +22,7 @@ export default function ModalCriarAviso({ onClose, onSucesso }) {
       return;
     }
 
+    setErro(null);
     setCarregando(true);
     try {
       await criarAvisoApi({ ...form, sala: { id: salaId } });
@@ -34,7 +34,6 @@ export default function ModalCriarAviso({ onClose, onSucesso }) {
       setCarregando(false);
     }
   };
-  
 
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) onClose();
@@ -76,17 +75,20 @@ export default function ModalCriarAviso({ onClose, onSucesso }) {
             onChange={handleChange}
             className="w-full px-4 py-2 rounded bg-gray-800 text-white"
           />
-          {erro && <p className="text-red-400 font-medium text-center">{erro}</p>}
 
+          {erro && <p className="text-red-400 font-medium text-center">{erro}</p>}
+          {carregando && (
+            <p className="text-indigo-400 font-medium text-center">⏳ Enviando, aguarde...</p>
+          )}
         </div>
 
         <div className="mt-6 flex justify-center">
           <button
             onClick={handleSubmit}
             disabled={carregando}
-            className={`px-6 py-2 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition`}
+            className="px-6 py-2 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition"
           >
-            Criar Aviso
+            {carregando ? "Criando..." : "Criar Aviso"}
           </button>
         </div>
       </motion.div>

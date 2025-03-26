@@ -28,7 +28,7 @@ export default function TelaLogin() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Lado esquerdo */}
+      {/* esquerda */}
       <motion.div
         className="w-1/2 bg-[#18163c] text-white flex items-center justify-center flex-col"
         initial={{ opacity: 0, x: -50 }}
@@ -39,7 +39,7 @@ export default function TelaLogin() {
         <p className="text-3xl mt-4 text-gray-300">Facilitando o aprendizado😊</p>
       </motion.div>
 
-      {/* Lado direito */}
+      {/* direita */}
       <motion.div
         className="w-1/2 bg-gray-900 flex items-center justify-center"
         initial={{ opacity: 0, x: 50 }}

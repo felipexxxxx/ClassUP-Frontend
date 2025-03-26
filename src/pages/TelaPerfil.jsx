@@ -28,7 +28,6 @@ export default function TelaPerfil() {
           Meu Perfil
         </h2>
 
-        {/* Alerta de sucesso */}
         <AnimatePresence>
           {mensagemSucesso && (
             <motion.div
@@ -64,7 +63,7 @@ export default function TelaPerfil() {
           <p className="text-sm text-gray-400 mt-2">Clique na foto para alterar</p>
         </div>
 
-        {/* Informações do usuário */}
+        {/* Usuário */}
         <div className="bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
           <p className="text-xl mb-2">
             <strong className="text-white">Nome:</strong> {perfil.nomeCompleto}

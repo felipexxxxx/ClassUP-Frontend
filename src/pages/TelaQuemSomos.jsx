@@ -9,10 +9,10 @@ export default function TelaQuemSomos() {
     <div className="min-h-screen bg-gray-900 text-white flex flex-col">
       <Header
         titulo="ClassUP"
-        acoesExtra={[]} // Sem ações extras aqui
-        exibirSala={false} // Não mostrar nome da sala
-        mostrarPerfil={false} // Esconde o botão de perfil/logout
-        onTituloClick={() => window.location.href = "/"} // Volta para tela inicial
+        acoesExtra={[]}
+        exibirSala={false} 
+        mostrarPerfil={false} 
+        onTituloClick={() => window.location.href = "/"} 
       />
 
       <main className="flex flex-col md:flex-row items-center justify-center flex-grow px-8 py-12 gap-12">

@@ -62,6 +62,7 @@ export default function ModalDetalheAtividade({
             ✅ <span className="font-medium text-white">Presenças confirmadas:</span> {resumo.confirmados}
           </div>
         )}
+        
         {/* Esconde status e botões se modoSomenteLeitura for true OU se for professor */}
         {!isProfessor && !modoSomenteLeitura && (
           <>

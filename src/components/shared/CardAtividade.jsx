@@ -50,7 +50,7 @@ export default function CardAtividade({
       {isProfessor && !modoSomenteLeitura && (
         <div
           className="absolute top-4 right-4 flex gap-3 z-10"
-          onClick={(e) => e.stopPropagation()} // impede que o clique nos ícones abra o modal de detalhes
+          onClick={(e) => e.stopPropagation()} 
         >
           <button
             onClick={onEdit}

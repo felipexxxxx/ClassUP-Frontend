@@ -92,7 +92,7 @@ export default function useSalaProfessor() {
     try {
       await removerAlunoApi(alunoId);
       setMensagemSucesso("Aluno removido com sucesso!");
-      atualizarSala(); // atualiza lista de alunos
+      atualizarSala(); 
       setTimeout(() => setMensagemSucesso(null), 3000);
     } catch (err) {
       console.error("Erro ao remover aluno:", err);

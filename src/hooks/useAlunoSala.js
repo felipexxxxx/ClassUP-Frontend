@@ -11,7 +11,7 @@ import { buscarPerfil } from "../services/authService";
 export default function useAlunoSala() {
   const [perfil, setPerfil] = useState({});
   const [atividades, setAtividades] = useState([]);
-  const [avisos, setAvisos] = useState([]); // <-- AVISOS como array
+  const [avisos, setAvisos] = useState([]); 
   const [colegas, setColegas] = useState([]);
   const [mensagemSucesso, setMensagemSucesso] = useState("");
   const [atividadeSelecionada, setAtividadeSelecionada] = useState(null);
@@ -48,7 +48,7 @@ export default function useAlunoSala() {
 
     setPerfil(perfilData);
     setAtividades(atividadesData);
-    setAvisos(avisosData); // <-- SETA AVISOS
+    setAvisos(avisosData); 
     setColegas([salaData.professor, ...salaData.alunos]);
     setNomeSala(salaData.nome);
   };

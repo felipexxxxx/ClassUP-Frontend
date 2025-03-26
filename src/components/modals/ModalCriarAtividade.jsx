@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { useParams } from "react-router-dom";
 import { criarAtividadeApi } from "../../services/professorService";
 
-
 export default function ModalCriarAtividade({ onClose, onSucesso }) {
   const { id: salaId } = useParams();
   const [form, setForm] = useState({
@@ -24,7 +23,7 @@ export default function ModalCriarAtividade({ onClose, onSucesso }) {
       setErro("Todos os campos são obrigatórios.");
       return;
     }
-  
+
     setErro(null);
     setCarregando(true);
     try {
@@ -37,8 +36,6 @@ export default function ModalCriarAtividade({ onClose, onSucesso }) {
       setCarregando(false);
     }
   };
-  
-  
 
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) onClose();
@@ -61,6 +58,8 @@ export default function ModalCriarAtividade({ onClose, onSucesso }) {
         >
           ✕
         </button>
+
+        <h2 className="text-3xl font-bold text-indigo-300 mb-6">Criar Nova Atividade</h2>
 
         <div className="space-y-4">
           <input
@@ -93,16 +92,20 @@ export default function ModalCriarAtividade({ onClose, onSucesso }) {
             onChange={handleChange}
             className="w-full px-4 py-2 rounded bg-gray-800 text-white"
           />
-          {erro && <p className="text-red-400 font-medium">{erro}</p>}
+
+          {erro && <p className="text-red-400 font-medium text-center">{erro}</p>}
+          {carregando && (
+            <p className="text-indigo-400 font-medium text-center">⏳ Enviando, aguarde...</p>
+          )}
         </div>
 
         <div className="mt-6 flex justify-center">
           <button
             onClick={handleSubmit}
             disabled={carregando}
-            className={`px-6 py-2 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition `}
+            className="px-6 py-2 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition"
           >
-            Criar Atividade
+            {carregando ? "Criando..." : "Criar Atividade"}
           </button>
         </div>
       </motion.div>

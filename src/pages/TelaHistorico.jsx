@@ -8,7 +8,6 @@ import CardHistorico from "../components/shared/CardHistorico";
 
 
 export default function TelaHistorico() {
-  const navigate = useNavigate();
   const { historico, carregando } = useHistorico();
 
   return (

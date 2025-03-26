@@ -82,7 +82,6 @@ export default function TelaPainelProfessor() {
           </div>
         </div>
 
-        {/* Feedbacks */}
         <AnimatePresence>
           {mensagemSucesso && (
             <motion.div
@@ -106,7 +105,6 @@ export default function TelaPainelProfessor() {
           )}
         </AnimatePresence>
 
-        {/* Salas */}
         {carregando ? (
           <p className="text-indigo-200">Carregando salas...</p>
         ) : salas.length === 0 ? (
@@ -122,7 +120,9 @@ export default function TelaPainelProfessor() {
                   whileTap={{ scale: 0.98 }}
                   className="cursor-pointer bg-gray-800 px-6 py-6 rounded-2xl shadow-md hover:shadow-indigo-500/20 hover:bg-gray-700 transition-all relative"
                 >
-                  <h3 className="text-2xl font-bold text-indigo-300 mb-2">{sala.nome}</h3>
+                  <h3 className="text-2xl font-bold text-indigo-300 mb-2">
+                    {sala.nome}
+                  </h3>
                   <p className="text-xl font-mono text-gray-400">
                     Código de acesso:{" "}
                     <span className="text-indigo-300">
@@ -133,7 +133,7 @@ export default function TelaPainelProfessor() {
                           navigator.clipboard.writeText(sala.codigoAcesso);
                           setMensagemSucesso("Código copiado com sucesso!");
                         }}
-                        className="text-md text-indigo-400 hover:text-white underline"
+                        className="text-md text-indigo-400 hover:text-white underline ml-2"
                       >
                         Copiar
                       </button>
@@ -146,7 +146,6 @@ export default function TelaPainelProfessor() {
         )}
       </main>
 
-      {/* Modais */}
       {mostrarModalCriar && (
         <ModalCriarSala
           nomeNovaSala={nomeNovaSala}

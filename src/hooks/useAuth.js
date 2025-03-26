@@ -69,14 +69,12 @@ export default function useAuth() {
       try {
         const response = await buscarSalaAluno(token);
 
-        // ⚠️ Verifica se existe sala no response
         if (response?.data) {
           navigate("/aluno/sala");
         } else {
           navigate("/aluno/entrar");
         }
       } catch (err) {
-        // 🔒 Trata erro 400 como aluno sem sala
         if (err.response?.status === 400) {
           navigate("/aluno/entrar");
         } else {
@@ -87,7 +85,7 @@ export default function useAuth() {
     } else if (role === "PROFESSOR") {
       navigate("/professor/painel");
     } else {
-      navigate("/login"); // fallback
+      navigate("/login"); 
     }
   } catch (error) {
     console.error("Erro ao decodificar token ou redirecionar:", error);
