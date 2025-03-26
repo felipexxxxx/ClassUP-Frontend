@@ -2,7 +2,7 @@ import api from "../api/api";
 
 // Busca as atividades da sala do aluno
 export async function buscarAtividades() {
-  const res = await api.get("/sala/atividades");
+  const res = await api.get("/aluno/sala/atividades");
   return res.data;
 }
 
@@ -12,20 +12,27 @@ export async function buscarColegas() {
   return res.data;
 }
 
-// Busca o perfil do usuário logado
-export async function buscarPerfil() {
-  const res = await api.get("/user");
-  return res.data;
+export async function entrarNaSala(codigoAcesso, token) {
+  return await api.post(
+    "/aluno/sala/entrar",
+    { codigoAcesso },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 }
+
 
 // Confirma a presença em uma atividade
 export async function confirmarPresencaAtividade(id) {
-  await api.put(`/sala/atividades/${id}/confirmar`);
+  await api.put(`/aluno/sala/atividades/${id}/confirmar`);
 }
 
 // Cancela a presença em uma atividade
 export async function cancelarPresencaAtividade(id) {
-  await api.put(`/sala/atividades/${id}/cancelar`);
+  await api.put(`/aluno/sala/atividades/${id}/cancelar`);
 }
 
 // Busca os avisos da sala

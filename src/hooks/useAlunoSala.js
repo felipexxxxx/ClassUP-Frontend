@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import {
-  buscarPerfil,
   buscarAtividades,
   buscarColegas,
   buscarAvisos,
   confirmarPresencaAtividade,
   cancelarPresencaAtividade
 } from "../services/alunoService";
+import { buscarPerfil } from "../services/authService";
 
 export default function useAlunoSala() {
   const [perfil, setPerfil] = useState({});

@@ -1,43 +1,10 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import api from "../api/api";
 import { motion, AnimatePresence } from "framer-motion";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
+import useAcessoSala from "../hooks/useAcessoSala";
 
 export default function TelaAcessoSala() {
-  const [codigo, setCodigo] = useState("");
-  const [mensagem, setMensagem] = useState("");
-  const [sucesso, setSucesso] = useState(null);
-  const navigate = useNavigate();
-
-  const handleEntrar = async () => {
-    setMensagem("");
-
-    try {
-      const token = localStorage.getItem("token");
-      const response = await api.post(
-        "/sala/entrar",
-        { codigoAcesso: codigo },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      setMensagem("Você entrou na sala com sucesso!");
-      setSucesso(true);
-
-      setTimeout(() => {
-        navigate("/aluno/sala");
-      }, 1500);
-    } catch (error) {
-      console.error(error);
-      setMensagem("Código inválido. Verifique com o professor.");
-      setSucesso(false);
-    }
-  };
+  const { codigo, setCodigo, mensagem, sucesso, handleEntrar } = useAcessoSala();
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-900 text-white">
