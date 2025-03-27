@@ -6,7 +6,7 @@ Sistema educacional completo que permite às instituições de ensino gerenciar 
 
 ClassUP é uma aplicação web criada para escolas e faculdades gerenciarem turmas, atividades, avisos e presença. A plataforma permite:
 
-- Cadastro e autenticação de alunos e professores.
+- Autenticação de alunos e professores.
 - Gerenciamento completo de salas, atividades e avisos.
 - Controle detalhado da presença dos alunos.
 - Histórico de salas encerradas.
