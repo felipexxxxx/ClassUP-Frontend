@@ -33,7 +33,7 @@ ClassUP é uma aplicação web criada para escolas e faculdades gerenciarem turm
 - Remover alunos da sala (com e-mail automático)
 - Encerrar semestre (arquiva salas e notifica alunos)
 - Visualizar histórico de salas encerradas
-- Editar perfil, senha, e-mail e foto de perfil (armazenada no localStorage)
+- Editar perfil, senha, e-mail e foto de perfil 
 
 ### 🎓 Aluno
 - Entrar em sala via código gerado pelo professor
