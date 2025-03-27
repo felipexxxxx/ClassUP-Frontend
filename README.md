@@ -6,96 +6,100 @@ Sistema educacional completo que permite às instituições de ensino gerenciar 
 
 ClassUP é uma aplicação web criada para escolas e faculdades gerenciarem turmas, atividades, avisos e presença. A plataforma permite:
 
-- Autenticação de alunos e professores.
-- Gerenciamento completo de salas, atividades e avisos.
-- Controle detalhado da presença dos alunos.
-- Histórico de salas encerradas.
-- Envio automático de notificações por e-mail (atividades e eventos especiais).
+- Autenticação de alunos e professores com diferenciação de permissões por função (role).
+- Criação e gerenciamento de salas, atividades e avisos pelo professor.
+- Confirmação de presença e visualização de colegas e avisos por parte dos alunos.
+- Encerramento de semestre com arquivamento de dados e envio de notificações por e-mail.
+- Histórico de salas encerradas acessível tanto por alunos quanto por professores.
 
-## 🔧 Tecnologias
+## 🧱 Arquitetura do Projeto
 
-### Backend:
-- **Java** com **Spring Boot**
-- **Spring Security** (JWT)
-- **Spring Email**
-- **MySQL** (banco de dados)
+- **Backend**: Java + Spring Boot
+- **Frontend**: React + Tailwind CSS
+- **Banco de Dados**: MySQL
+- **Autenticação**: JWT
+- **Envio de E-mails**: Spring Mail (SMTP Gmail)
+- **Deploy**: Railway (backend + banco) e Netlify (frontend)
 
-### Frontend:
-- **ReactJS**
-- **Tailwind CSS**
-- **Axios** (requisições HTTP)
-- **Framer Motion** (animações)
-- **React Router Dom** (roteamento)
-- **JWT Decode** (manipulação de tokens JWT)
-- **React Icons**
+## 🔐 Funcionalidades
 
-## 🎯 Funcionalidades
+### 📌 Gerais
+- Autenticação com diferenciação de usuário (aluno ou professor)
+- Recuperação de senha com envio de código por e-mail
 
-### Autenticação
-- Login diferenciado para professor e aluno via JWT (token com role).
-- Esqueci minha senha com envio de código por e-mail.
+### 👨‍🏫 Professor
+- Criar, visualizar, editar e excluir salas
+- Criar, editar e excluir atividades e avisos
+- Remover alunos da sala (com e-mail automático)
+- Encerrar semestre (arquiva salas e notifica alunos)
+- Visualizar histórico de salas encerradas
+- Editar perfil, senha, e-mail e foto de perfil (armazenada no localStorage)
 
-### Funcionalidades do Professor
-- Criar, editar e excluir salas, atividades e avisos.
-- Encerrar semestre (arquivamento e histórico das salas).
-- Expulsar alunos de salas (com notificação por e-mail).
-- Edição de perfil com upload de foto, alteração de e-mail e senha.
+### 🎓 Aluno
+- Entrar em sala via código gerado pelo professor
+- Confirmar ou cancelar presença em atividades
+- Visualizar avisos e colegas da turma
+- Acessar histórico de salas
+- Editar perfil, senha, e-mail e foto de perfil
 
-### Funcionalidades do Aluno
-- Entrar em salas via código gerado pelo professor.
-- Confirmar ou cancelar presença em atividades.
-- Visualizar avisos e lista de colegas da turma.
-- Acesso a histórico de salas anteriores.
-- Edição de perfil com upload de foto, alteração de e-mail e senha.
-
-## 🚢 Deploy
-
-- Backend e Banco de Dados (MySQL) hospedados no [Railway](https://railway.app/).
-- Frontend hospedado no [Netlify](https://classup-web.netlify.app/inicio).
-
-## 📦 Instalação
+## 🛠️ Instalação Local
 
 ### Backend
-Clone o repositório e rode:
 ```bash
+git clone https://github.com/seu-usuario/classup-backend.git
+cd classup-backend
 mvn clean install
-```
-Execute o projeto:
-```bash
 mvn spring-boot:run
 ```
 
-### Frontend
-Clone o repositório e instale as dependências:
-```bash
-npm install
+Crie um banco de dados MySQL chamado `classup_db`. Edite o arquivo `application.properties` com suas configurações locais:
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/classup_db
+spring.datasource.username=root
+spring.datasource.password=sua_senha
+spring.mail.username=seu_email@gmail.com
+spring.mail.password=sua_senha_de_app
+API_SECURITY_TOKEN_SECRET=segredo_super_secreto
 ```
-Execute o frontend:
+
+### Frontend
 ```bash
+git clone https://github.com/seu-usuario/classup-frontend.git
+cd classup-frontend
+npm install
 npm run dev
 ```
 
-## 📄 Dependências Frontend
+## 🚢 Deploy
 
-```json
-"dependencies": {
-  "axios": "^1.8.4",
-  "framer-motion": "^12.5.0",
-  "jwt-decode": "^3.1.2",
-  "react": "^18.2.0",
-  "react-dom": "^18.2.0",
-  "react-icons": "^5.5.0",
-  "react-router-dom": "^7.4.0"
-},
-"devDependencies": {
-  "@vitejs/plugin-react": "^4.3.4",
-  "autoprefixer": "^10.4.14",
-  "postcss": "^8.4.21",
-  "tailwindcss": "^3.3.2",
-  "vite": "^6.2.3",
-  "vite-plugin-static-copy": "^2.3.0"
-}
-```
+- 🔧 **Backend + Banco de Dados**: [Railway](https://railway.app)
+- 🌐 **Frontend**: [Netlify](https://classup-web.netlify.app/inicio)
 
-## 💡 Autor
-Desenvolvido por [Felipe de Paula](https://github.com/felipexxxxx).
+## 📡 Endpoints da API (principais)
+
+### `/user`
+- POST `/login`, `/logout`, `/enviar-email`, `/redefinir-senha`
+- GET `/` (perfil)
+- PUT `/email`, `/senha`
+
+### `/professor/sala`
+- GET `/`, `/{id}`, `/atividades/{id}/resumo`
+- POST `/`, `/atividades`, `/avisos`, `/encerrar`
+- PUT `/atividades/{id}`, `/avisos/{id}`
+- DELETE `/atividades/{id}`, `/avisos/{id}`, `/aluno/{alunoId}`
+
+### `/aluno/sala`
+- POST `/entrar`
+- GET `/detalhes`
+- PUT `/atividades/{id}/confirmar`, `/atividades/{id}/cancelar`
+
+### `/sala/historico`
+- GET `/`, `/{id}`
+
+## 👨‍💻 Autor
+Desenvolvido por [Felipe de Paula](https://github.com/felipexxxxx)
+
+---
+
+💬 Dúvidas ou sugestões? Fique à vontade para abrir uma issue no repositório!
