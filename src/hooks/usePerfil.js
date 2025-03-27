@@ -4,7 +4,6 @@ import {
   atualizarEmail as atualizarEmailAPI,
   atualizarSenha as atualizarSenhaAPI,
 } from "../services/perfilService";
-import { logoutUsuario } from "../services/authService"
 
 export default function usePerfil() {
   const [perfil, setPerfil] = useState({});
@@ -33,16 +32,14 @@ export default function usePerfil() {
   const atualizarEmail = async (novoEmail) => {
     try {
       await atualizarEmailAPI(novoEmail);
-      await logoutUsuario();
-      localStorage.clear();
-  
-      setMensagemSucesso("Email atualizado com sucesso! Redirecionando para login...");
+      setMensagemSucesso("Email atualizado com sucesso! Você será deslogado...");
       setErroEmail("");
       setMostraEmail(false);
   
       setTimeout(() => {
-        navigate("/login");
-      }, 2500);
+        localStorage.clear();
+        window.location.href = "/login";
+      }, 3000);
     } catch (err) {
       if (err.response?.status === 400) {
         setErroEmail("Este e-mail já está em uso.");

@@ -50,7 +50,7 @@ export default function useAuth() {
       }
     }
     localStorage.clear();
-    navigate("/TelaInicial");
+    navigate("/inicio");
   };
 
   const redirecionarPorRole = async () => {
@@ -83,7 +83,7 @@ export default function useAuth() {
       }
     } catch (error) {
       console.error("Erro ao decodificar token ou redirecionar:", error);
-      navigate("/login");
+      navigate("login");
     }
   };
 
