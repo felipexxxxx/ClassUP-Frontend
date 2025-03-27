@@ -22,7 +22,7 @@ function App() {
       <Route path="/professor/painel" element={<TelaPainelProfessor />} />
       <Route path="/sala/:id" element={<TelaSalaProfessor />} />
       <Route path="/aluno/sala" element={<TelaAluno />} />
-      <Route path="/sluno/entrar" element={<TelaAcessoSala />} />
+      <Route path="/aluno/entrar" element={<TelaAcessoSala />} />
       <Route path="/perfil" element={<TelaPerfil />} />
       <Route path="/historico" element={<TelaHistorico />} />
       <Route path="/historico/:id" element={<TelaHistoricoDetalhes />} />
