@@ -51,7 +51,7 @@ ClassUP é uma aplicação web criada para escolas e faculdades gerenciarem turm
 ## 🚢 Deploy
 
 - Backend e Banco de Dados (MySQL) hospedados no [Railway](https://railway.app/).
-- Frontend hospedado no [Netlify]([https://www.netlify.com/](https://classup-web.netlify.app/inicio)).
+- Frontend hospedado no [Netlify](https://classup-web.netlify.app/inicio).
 
 ## 📦 Instalação
 
