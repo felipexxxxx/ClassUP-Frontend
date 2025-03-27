@@ -16,17 +16,17 @@ import TelaSalaProfessor from "./pages/TelaSalaProfessor";
 function App() {
   return (
     <Routes>
-      <Route path="/TelaInicial" element={<TelaInicial />} />
-      <Route path="/sobre" element={<TelaQuemSomos />} />
-      <Route path="/login" element={<TelaLogin />} />
-      <Route path="/professor/painel" element={<TelaPainelProfessor />} />
-      <Route path="/sala/:id" element={<TelaSalaProfessor />} />
-      <Route path="/aluno/sala" element={<TelaAluno />} />
-      <Route path="/aluno/entrar" element={<TelaAcessoSala />} />
-      <Route path="/perfil" element={<TelaPerfil />} />
-      <Route path="/historico" element={<TelaHistorico />} />
-      <Route path="/historico/:id" element={<TelaHistoricoDetalhes />} />
-      <Route path="/" element={<Navigate to="/TelaInicial" />} />
+      <Route path="/Inicio" element={<TelaInicial />} />
+      <Route path="/Sobre" element={<TelaQuemSomos />} />
+      <Route path="/Login" element={<TelaLogin />} />
+      <Route path="/Professor/Painel" element={<TelaPainelProfessor />} />
+      <Route path="/Sala/:id" element={<TelaSalaProfessor />} />
+      <Route path="/Aluno/Sala" element={<TelaAluno />} />
+      <Route path="/Aluno/Entrar" element={<TelaAcessoSala />} />
+      <Route path="/Perfil" element={<TelaPerfil />} />
+      <Route path="/Historico" element={<TelaHistorico />} />
+      <Route path="/Historico/:id" element={<TelaHistoricoDetalhes />} />
+      <Route path="/" element={<Navigate to="/Inicio" />} />
     </Routes>
   );
 }
