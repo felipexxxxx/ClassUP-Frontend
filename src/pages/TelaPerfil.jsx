@@ -41,8 +41,8 @@ export default function TelaPerfil() {
           )}
         </AnimatePresence>
 
-        <div className="flex flex-col items-center mb-10 relative group">
-          <label htmlFor="fotoPerfil" className="relative cursor-pointer group">
+        <div className="flex flex-col items-center mb-10">
+          <label htmlFor="fotoPerfil" className="relative group cursor-pointer">
             <img
               src={localStorage.getItem("fotoPerfil") || "https://via.placeholder.com/150"}
               alt="Foto de Perfil"
@@ -51,14 +51,14 @@ export default function TelaPerfil() {
             <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 rounded-full transition">
               <span className="text-white text-sm font-medium">Alterar</span>
             </div>
+            <input
+              id="fotoPerfil"
+              type="file"
+              accept="image/*"
+              onChange={(e) => atualizarFoto(e.target.files[0])}
+              className="absolute inset-0 opacity-0 cursor-pointer rounded-full"
+            />
           </label>
-          <input
-            id="fotoPerfil"
-            type="file"
-            accept="image/*"
-            onChange={(e) => atualizarFoto(e.target.files[0])}
-            className="hidden"
-          />
           <p className="text-sm text-gray-400 mt-2">Clique na foto para alterar</p>
         </div>
 
