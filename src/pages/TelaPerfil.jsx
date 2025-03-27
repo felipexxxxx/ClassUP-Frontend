@@ -41,7 +41,6 @@ export default function TelaPerfil() {
           )}
         </AnimatePresence>
 
-        {/* Foto de perfil */}
         <div className="flex flex-col items-center mb-10 relative group">
           <label htmlFor="fotoPerfil" className="relative cursor-pointer group">
             <img
@@ -90,7 +89,6 @@ export default function TelaPerfil() {
           </button>
         </div>
 
-        {/* Modal Alterar Email */}
         <AnimatePresence>
           {mostraEmail && (
             <motion.div
@@ -132,7 +130,6 @@ export default function TelaPerfil() {
           )}
         </AnimatePresence>
 
-        {/* Modal Redefinir Senha */}
         <AnimatePresence>
           {mostraSenha && (
             <motion.div

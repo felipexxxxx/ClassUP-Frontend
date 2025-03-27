@@ -13,7 +13,6 @@ import ModalDetalheAtividade from "../components/modals/ModalDetalheAtividade";
 
 export default function TelaAlunoSala() {
   const {
-    perfil,
     nomeSala,
     atividades,
     avisos,
@@ -101,7 +100,6 @@ export default function TelaAlunoSala() {
         </AnimatePresence>
       </main>
 
-      {/* Modal de Detalhes da Atividade */}
       {atividadeSelecionada && (
         <ModalDetalheAtividade
           atividade={atividadeSelecionada}
