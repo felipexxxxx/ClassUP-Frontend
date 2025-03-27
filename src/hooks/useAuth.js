@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser, logoutUsuario } from "../services/authService";
+import { loginUser, logoutUsuario, enviarCodigoEmail, redefinirSenha } from "../services/authService";
 import { buscarSalaCompletaDoAluno } from "../services/alunoService";
 import jwtDecode from "jwt-decode";
 
@@ -55,15 +55,15 @@ export default function useAuth() {
 
   const redirecionarPorRole = async () => {
     const token = localStorage.getItem("token");
-  
+
     if (!token) {
       navigate("/login");
       return;
     }
-  
+
     try {
       const { role } = jwtDecode(token);
-  
+
       if (role === "ALUNO") {
         try {
           await buscarSalaCompletaDoAluno();
@@ -94,5 +94,7 @@ export default function useAuth() {
     realizarLogin,
     logout,
     redirecionarPorRole,
+    enviarCodigoEmail,
+    redefinirSenha
   };
 }

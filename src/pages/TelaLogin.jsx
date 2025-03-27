@@ -1,10 +1,15 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import useAuth from "../hooks/useAuth";
+import ModalEnviarEmail from "../components/modals/ModalEnviarEmail";
+import ModalRedefinirSenha from "../components/modals/ModalRedefinirSenha";
 
 export default function TelaLogin() {
   const [login, setLogin] = useState("");
   const [senha, setSenha] = useState("");
+  const [mostrarModalEmail, setMostrarModalEmail] = useState(false);
+  const [mostrarModalCodigo, setMostrarModalCodigo] = useState(false);
+  const [emailParaRedefinir, setEmailParaRedefinir] = useState("");
 
   const {
     mensagem,
@@ -90,6 +95,13 @@ export default function TelaLogin() {
             Entrar
           </motion.button>
 
+          <p
+            onClick={() => setMostrarModalEmail(true)}
+            className="mt-4 text-sm text-indigo-400 text-center cursor-pointer hover:underline"
+          >
+            Esqueceu a senha?
+          </p>
+
           {mensagem && (
             <motion.p
               className={`mt-4 text-sm text-center ${
@@ -104,6 +116,24 @@ export default function TelaLogin() {
           )}
         </form>
       </motion.div>
+
+      {mostrarModalEmail && (
+        <ModalEnviarEmail
+          onClose={() => setMostrarModalEmail(false)}
+          onEmailEnviado={(email) => {
+            setEmailParaRedefinir(email);
+            setMostrarModalEmail(false);
+            setMostrarModalCodigo(true);
+          }}
+        />
+      )}
+
+      {mostrarModalCodigo && (
+        <ModalRedefinirSenha
+          email={emailParaRedefinir}
+          onClose={() => setMostrarModalCodigo(false)}
+        />
+      )}
     </div>
   );
 }
