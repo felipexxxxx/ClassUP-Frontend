@@ -35,12 +35,17 @@ ClassUP é uma aplicação web criada para escolas e faculdades gerenciarem turm
 - Visualizar histórico de salas encerradas
 - Editar perfil, senha, e-mail e foto de perfil 
 
-### 🎓 Aluno
-- Entrar em sala via código gerado pelo professor
-- Confirmar ou cancelar presença em atividades
-- Visualizar avisos e colegas da turma
-- Acessar histórico de salas
-- Editar perfil, senha, e-mail e foto de perfil
+### Funcionalidades do Aluno
+- Entrar em salas via código gerado pelo professor.
+- Confirmar ou cancelar presença em atividades.
+- Visualizar avisos e lista de colegas da turma.
+- Acesso a histórico de salas anteriores.
+- Edição de perfil com upload de foto, alteração de e-mail e senha.
+
+## 🚢 Deploy
+
+- Backend e Banco de Dados (MySQL) hospedados no [Railway](https://railway.app/).
+- Frontend hospedado no [Netlify]([https://www.netlify.com/](https://classup-web.netlify.app/inicio)).
 
 ## 🛠️ Instalação Local
 
