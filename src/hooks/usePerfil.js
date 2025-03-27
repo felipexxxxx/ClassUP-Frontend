@@ -38,7 +38,7 @@ export default function usePerfil() {
   
       setTimeout(() => {
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = "/inicio";
       }, 3000);
     } catch (err) {
       if (err.response?.status === 400) {
