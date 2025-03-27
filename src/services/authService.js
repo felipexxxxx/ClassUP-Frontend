@@ -14,11 +14,11 @@ export async function logoutUsuario() {
   await api.post("/user/logout");
 }
 
-export async function enviarCodigoEmail(novoEmail) {
-  return api.post("/user/enviar-email", { novoEmail });
+export async function enviarCodigoEmail(email) {
+  return api.post("/user/enviar-email", { email });
 }
 
-export async function redefinirSenha(email, codigoAutenticacao, novaSenha) {
+export async function redefinirSenha(codigoAutenticacao, novaSenha) {
   return api.put("/user/redefinir-senha", { novaSenha, codigoAutenticacao});
 }
 
