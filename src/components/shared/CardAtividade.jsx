@@ -18,7 +18,7 @@ export default function CardAtividade({
       onClick={onClick}
       className="bg-gray-800 p-8 rounded-2xl shadow-xl hover:shadow-indigo-500/20 transition-all cursor-pointer relative"
     >
-      <h3 className="text-3xl font-bold text-indigo-300 mb-2">
+      <h3 className="text-3xl font-bold text-indigo-300 mb-2 break-words line-clamp-2">
         {atividade.titulo}
         <span className="text-xl text-gray-400 ml-2">({dataFormatada})</span>
       </h3>

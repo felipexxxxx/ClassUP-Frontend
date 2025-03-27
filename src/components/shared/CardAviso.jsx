@@ -36,7 +36,7 @@ export default function CardAviso({
         </div>
       )}
 
-      <h3 className="text-3xl font-bold text-indigo-300 mb-2">
+      <h3 className="text-3xl font-bold text-indigo-300 mb-2 break-words line-clamp-2">
         {aviso.titulo}
         <span className="text-xl text-gray-400 ml-2">
           ({formatarData(aviso.enviadaEm)})
