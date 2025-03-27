@@ -17,7 +17,7 @@ export default function Header({ nomeSala = "", codigoAcesso = "", exibirSala = 
 
   const handleClickLogo = async () => {
     if (!isLogado) {
-      navigate("/TelaInicial");
+      navigate("/inicio");
       return;
     }
 
