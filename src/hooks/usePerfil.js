@@ -33,6 +33,8 @@ export default function usePerfil() {
     try {
       await atualizarEmailAPI(novoEmail);
       setMensagemSucesso("Email atualizado com sucesso!");
+      localStorage.removeItem("token");
+      setTimeout(() => window.location.href = "/login", 2000);
       setErroEmail("");
       setMostraEmail(false);
       carregarPerfil();
