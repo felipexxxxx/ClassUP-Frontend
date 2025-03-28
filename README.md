@@ -12,6 +12,14 @@ ClassUP é uma aplicação web criada para escolas e faculdades gerenciarem turm
 - Encerramento de semestre com arquivamento de dados e envio de notificações por e-mail.
 - Histórico de salas encerradas acessível tanto por alunos quanto por professores.
 
+## ✨ Destaques do Projeto
+
+- 🔐 Autenticação com JWT e recuperação de senha via e-mail.
+- 📬 Notificações por e-mail para ações importantes (remoção de aluno, encerramento de semestre etc.).
+- 👨‍🏫 Perfis distintos: professores possuem permissões administrativas completas.
+- 🧠 Histórico inteligente: preserva dados de turmas encerradas e permite consulta posterior.
+- 🎨 Interface dinâmica e UX intuitiva.
+
 ## 🧱 Arquitetura do Projeto
 
 - **Backend**: Java + Spring Boot
@@ -33,19 +41,123 @@ ClassUP é uma aplicação web criada para escolas e faculdades gerenciarem turm
 - Remover alunos da sala (com e-mail automático)
 - Encerrar semestre (arquiva salas e notifica alunos)
 - Visualizar histórico de salas encerradas
-- Editar perfil, senha, e-mail e foto de perfil 
+- Editar perfil, senha, e-mail e foto de perfil (armazenada no localStorage)
 
-### Funcionalidades do Aluno
-- Entrar em salas via código gerado pelo professor.
-- Confirmar ou cancelar presença em atividades.
-- Visualizar avisos e lista de colegas da turma.
-- Acesso a histórico de salas anteriores.
-- Edição de perfil com upload de foto, alteração de e-mail e senha.
+### 🎓 Aluno
+- Entrar em sala via código gerado pelo professor
+- Confirmar ou cancelar presença em atividades
+- Visualizar avisos e colegas da turma
+- Acessar histórico de salas
+- Editar perfil, senha, e-mail e foto de perfil
 
-## 🚢 Deploy
+## 🖼️ Interface da Aplicação
 
-- Backend e Banco de Dados (MySQL) hospedados no [Railway](https://railway.app/).
-- Frontend hospedado no [Netlify]([https://www.netlify.com/](https://classup-web.netlify.app/inicio)).
+### Tela Inicial
+![Tela Inicial](./public/prints/telaInicio.png)
+
+### Quem Somos
+![Quem Somos](./public/prints/telaQuemSomos.png)
+
+### Tela de Login
+![Login](./public/prints/telaLogin.png)
+
+### Redefinir Senha
+![Redefinir Senha](./public/prints/telaRedefinirSenha.png)
+
+### Tela de Logout
+![Logout](./public/prints/telaLogoutUsuario.png)
+
+
+---
+
+### Painel do Professor
+![Painel Professor](./public/prints/telaPainelProfessor.png)
+
+### Criar Sala
+![Criar Sala](./public/prints/telaPainelProfessorCriacaoSala.png)
+
+### Encerrar Semestre
+![Encerrar Semestre](./public/prints/telaPainelProfessorEncerrarSemestre.png)
+
+---
+
+### Sala do Professor - Atividades
+![Atividades](./public/prints/telaProfessorAtividades.png)
+
+#### Criar Atividade
+![Criar Atividade](./public/prints/telaProfessorAtividadesCriacao.png)
+
+#### Detalhes da Atividade
+![Detalhes Atividade](./public/prints/telaProfessorAtividadesDetalhes.png)
+
+#### Editar Atividade
+![Editar Atividade](./public/prints/telaProfessorAtividadesEdicao.png)
+
+#### Excluir Atividade
+![Excluir Atividade](./public/prints/telaProfessorAtividadesExclusao.png)
+
+---
+
+### Sala do Professor - Avisos
+![Avisos](./public/prints/telaProfessorAvisos.png)
+
+#### Criar Aviso
+![Criar Aviso](./public/prints/telaProfessorAvisosCriacao.png)
+
+#### Detalhes do Aviso
+![Detalhes Aviso](./public/prints/telaProfessorAvisosDetalhes.png)
+
+#### Editar Aviso
+![Editar Aviso](./public/prints/telaProfessorAvisosEdicao.png)
+
+#### Excluir Aviso
+![Excluir Aviso](./public/prints/telaProfessorAvisosExclusao.png)
+
+---
+
+### Visualizar Alunos
+![Visualizar Alunos](./public/prints/telaProfessorVerAlunos.png)
+
+---
+
+### Perfil do Usuário
+![Perfil](./public/prints/telaPerfilUsuarios.png)
+
+### Trocar Email
+![Trocar Email](./public/prints/telaTrocarEmailUsuario.png)
+
+### Trocar Senha
+![Trocar Senha](./public/prints/telaTrocarSenhaUsuario.png)
+
+---
+
+### Sala do Aluno - Atividades
+![Atividades Aluno](./public/prints/telaSalaAlunoAtividades.png)
+
+#### Detalhes Atividade
+![Detalhes Atividade Aluno](./public/prints/telaSalaAlunoAtividadesDetalhes.png)
+
+---
+
+### Sala do Aluno - Avisos
+![Avisos Aluno](./public/prints/telaSalaAlunoAvisos.png)
+
+#### Detalhes Aviso
+![Detalhes Aviso Aluno](./public/prints/telaSalaAlunoAvisosDetalhes.png)
+
+---
+
+### Sala - Colegas(Tela do aluno)
+![Entrar em Sala](./public/prints/telaAlunoVerSalas.png)
+
+---
+
+### Histórico de Salas
+![Histórico](./public/prints/telaSalaHistorico.png)
+
+---
+
+
 
 ## 🛠️ Instalação Local
 
@@ -101,6 +213,22 @@ npm run dev
 
 ### `/sala/historico`
 - GET `/`, `/{id}`
+
+## 📜 Regras de Negócio
+
+- Professores podem criar e gerenciar salas, atividades e avisos.
+- Alunos só podem estar vinculados a uma sala ativa por vez.
+- O semestre só pode ser encerrado por professores.
+- Alunos não conseguem editar ou excluir atividades/avisos.
+- Apenas o próprio usuário pode editar seu perfil, e-mail ou senha.
+
+## 🔁 Fluxo de Utilização
+
+1. **Login:** usuário acessa com matrícula ou e-mail.
+2. **Aluno sem sala:** insere código para entrar em uma sala.
+3. **Professor cria salas:** e gerencia seus componentes (atividades/avisos).
+4. **Confirmação de presença:** aluno visualiza e responde às atividades.
+5. **Encerramento do semestre:** tudo é arquivado, mantendo histórico.
 
 ## 👨‍💻 Autor
 Desenvolvido por [Felipe de Paula](https://github.com/felipexxxxx)
