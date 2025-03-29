@@ -12,7 +12,7 @@ export default function useAdmin() {
     setCarregando(true);
 
     try {
-      const response = await fetch("classup-python-converter-production.up.railway.app/converter", {
+      const response = await fetch("https://classup-python-converter-production.up.railway.app/converterJson", {
         method: "POST",
         body: formData,
       });
@@ -22,9 +22,7 @@ export default function useAdmin() {
         throw new Error(erro.erro || "Erro ao converter o arquivo.");
       }
 
-
-      const jsonConvertido = await fetch("classup-python-converter-production.up.railway.app/usuarios_convertidos.json");
-      const usuarios = await jsonConvertido.json();
+      const usuarios = await response.json();
 
       await importarUsuarios(usuarios);
 
@@ -34,14 +32,11 @@ export default function useAdmin() {
       console.error("Erro na importação:", error);
 
       if (error.response && error.response.data) {
-        // resposta do backend Java (axios interceptado)
         const msg = typeof error.response.data === "string"
           ? error.response.data
           : error.response.data.erro || "Erro ao importar usuários.";
-
         setMensagem(`⚠️ ${msg}`);
       } else {
-        //  erro padrão ou do Python
         setMensagem(`❌ ${error.message || "Erro inesperado ao importar usuários."}`);
       }
 
