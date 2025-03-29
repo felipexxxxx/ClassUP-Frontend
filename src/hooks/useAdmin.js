@@ -26,6 +26,7 @@ export default function useAdmin() {
       const usuarios = await response.json();
 
       await importarUsuarios(usuarios);
+      console.log("Usuários recebidos do Flask:", usuarios);
 
       setMensagem("✅ Usuários importados com sucesso!");
       setSucesso(true);
