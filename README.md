@@ -67,7 +67,7 @@ Foi adicionada uma **tela exclusiva para administradores** com suporte à import
 
 ➡️ [classup-python-converter](https://github.com/felipexxxxx/classup-python-converter)
 
-Essa API Flask foi hospedada, no Railway e utilizada em conjunto com o frontend.
+Essa API Flask foi hospedada no Railway e utilizada em conjunto com o frontend.
 
 
 ## 🖼️ Interface da Aplicação
