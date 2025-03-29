@@ -19,7 +19,6 @@ export default function useAdmin() {
 
       if (!response.ok) {
         const erro = await response.json();
-        console.log("Usuários recebidos do Flask:", usuarios);
         throw new Error(erro.erro || "Erro ao converter o arquivo.");
       }
 
