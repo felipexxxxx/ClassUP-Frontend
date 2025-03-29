@@ -63,11 +63,14 @@ Foi adicionada uma **tela exclusiva para administradores** com suporte à import
 
 > 🔐 Apenas o usuário `ADMIN` consegue acessar a tela `/admin`.
 
-📦 O conversor Python utilizado para transformar arquivos em JSON está disponível em um repositório separado:
+🔗A API feita em Python que realiza a conversão dos arquivos em JSON padronizado está disponível neste repositório separado:
 
 ➡️ [Conversor JSON](https://github.com/felipexxxxx/classup-python-converter)
 
-Essa API Flask foi hospedada no Railway e utilizada em conjunto com o frontend.
+Esse microserviço Flask foi hospedada no Railway e utilizada em conjunto com o frontend.
+
+
+Acesse o repositório do Backend [aqui.](https://github.com/felipexxxxx/AgendaEdu-Backend)
 
 
 ## 🖼️ Interface da Aplicação
@@ -190,9 +193,6 @@ cd classup-frontend
 npm install
 npm run dev
 ```
-### Backend
-
-Acesse o repositório do Backend [aqui.](https://github.com/felipexxxxx/AgendaEdu-Backend)
 
 ## 🚢 Deploy
 
