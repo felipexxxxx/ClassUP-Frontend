@@ -12,7 +12,7 @@ export default function useAdmin() {
     setCarregando(true);
 
     try {
-      const response = await fetch("http://localhost:5000/converter", {
+      const response = await fetch("classup-python-converter-production.up.railway.app/converter", {
         method: "POST",
         body: formData,
       });
