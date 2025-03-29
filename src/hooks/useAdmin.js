@@ -17,7 +17,7 @@ export default function useAdmin() {
         body: formData,
       });
 
-      const resultado = await response.json(); // só uma vez
+      const resultado = await response.json(); 
 
       if (!response.ok) {
         throw new Error(resultado.erro || "Erro ao converter o arquivo.");
