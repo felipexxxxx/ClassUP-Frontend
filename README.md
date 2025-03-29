@@ -61,7 +61,7 @@ Foi adicionada uma **tela exclusiva para administradores** com suporte à import
 - Enviar o JSON para o backend Java via API REST
 - Exibir feedback animado de sucesso ou erro, centralizado na interface
 
-> 🔐 Apenas usuários com `role = ADMIN` conseguem acessar a tela `/admin`.
+> 🔐 Apenas o usuário `ADMIN` consegue acessar a tela `/admin`.
 
 📦 O conversor Python utilizado para transformar arquivos em JSON está disponível em um repositório separado:
 
