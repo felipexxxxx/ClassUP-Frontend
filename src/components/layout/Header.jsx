@@ -81,12 +81,20 @@ export default function Header({ nomeSala = "", codigoAcesso = "", exibirSala = 
             </button>
           </>
         ) : (
-          <button
-            onClick={() => navigate("/sobre")}
-            className="text-xl text-indigo-300 hover:text-white transition"
-          >
-            <strong>Quem somos</strong>
-          </button>
+          <div className="flex items-center gap-6">
+            <button
+              onClick={() => navigate("/sobre")}
+              className="text-xl text-indigo-300 hover:text-white transition"
+            >
+              <strong>Quem somos</strong>
+            </button>
+            <button
+              onClick={() => navigate("/login")}
+              className="text-xl px-4 py-1.5 border border-indigo-400 rounded-md text-indigo-300 hover:bg-indigo-600 hover:text-white transition"
+            >
+              <strong>Entrar</strong>
+            </button>
+          </div>
         )}
       </div>
 

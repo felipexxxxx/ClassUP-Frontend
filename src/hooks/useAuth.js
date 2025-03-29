@@ -63,7 +63,7 @@ export default function useAuth() {
 
     try {
       const { role } = jwtDecode(token);
-
+    
       if (role === "ALUNO") {
         try {
           await buscarSalaCompletaDoAluno();
@@ -78,14 +78,16 @@ export default function useAuth() {
         }
       } else if (role === "PROFESSOR") {
         navigate("/professor/painel");
+      } else if (role === "ADMIN") {
+        navigate("/admin");
       } else {
         navigate("/login");
       }
     } catch (error) {
       console.error("Erro ao decodificar token ou redirecionar:", error);
-      navigate("login");
+      navigate("/login");
     }
-  };
+  }    
 
   return {
     mensagem,

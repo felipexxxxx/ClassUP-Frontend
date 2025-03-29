@@ -34,6 +34,8 @@ ClassUP é uma aplicação web criada para escolas e faculdades gerenciarem turm
 ### 📌 Gerais
 - Autenticação com diferenciação de usuário (aluno ou professor)
 - Recuperação de senha com envio de código por e-mail
+- Importação em massa de usuários pela instituição via painel de administração (formato JSON processado previamente).
+
 
 ### 👨‍🏫 Professor
 - Criar, visualizar, editar e excluir salas
@@ -49,6 +51,24 @@ ClassUP é uma aplicação web criada para escolas e faculdades gerenciarem turm
 - Visualizar avisos e colegas da turma
 - Acessar histórico de salas
 - Editar perfil, senha, e-mail e foto de perfil
+
+### 📥 Importação Automatizada de Usuários (Admin)
+
+Foi adicionada uma **tela exclusiva para administradores** com suporte à importação de usuários por arquivos `.csv`, `.json`, `.xlsx` e `.sql`. A interface permite:
+
+- Selecionar um arquivo diretamente no navegador
+- Executar o script Python (Flask) que converte o conteúdo em JSON padronizado
+- Enviar o JSON para o backend Java via API REST
+- Exibir feedback animado de sucesso ou erro, centralizado na interface
+
+> 🔐 Apenas usuários com `role = ADMIN` conseguem acessar a tela `/admin`.
+
+📦 O conversor Python utilizado para transformar arquivos em JSON está disponível em um repositório separado:
+
+➡️ [classup-python-converter](https://github.com/felipexxxxx/classup-python-converter)
+
+Essa API Flask pode ser hospedada, por exemplo, no Railway e utilizada em conjunto com o frontend.
+
 
 ## 🖼️ Interface da Aplicação
 
@@ -157,6 +177,8 @@ ClassUP é uma aplicação web criada para escolas e faculdades gerenciarem turm
 
 ---
 
+### Painel do administrador
+![Painel Admin](./public/prints/telaPainelAdmin.png)
 
 
 ## 🛠️ Instalação Local
@@ -199,6 +221,10 @@ npm run dev
 - POST `/login`, `/logout`, `/enviar-email`, `/redefinir-senha`
 - GET `/` (perfil)
 - PUT `/email`, `/senha`
+
+### `/admin`
+- POST `/registrar` — Criar novo usuário manualmente (admin)
+- POST `/importar-usuarios` — Importar usuários com JSON (admin)
 
 ### `/professor/sala`
 - GET `/`, `/{id}`, `/atividades/{id}/resumo`
