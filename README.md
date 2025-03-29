@@ -57,13 +57,13 @@ ClassUP é uma aplicação web criada para escolas e faculdades gerenciarem turm
 Foi adicionada uma **tela exclusiva para administradores** com suporte à importação de usuários por arquivos `.csv`, `.json`, `.xlsx` e `.sql`. A interface permite:
 
 - Selecionar um arquivo diretamente no navegador
-- Executar o script Python (Flask) que converte o conteúdo em JSON padronizado
+- Executar a API Python (Flask) que converte o conteúdo em JSON padronizado
 - Enviar o JSON para o backend Java via API REST
 - Exibir feedback animado de sucesso ou erro, centralizado na interface
 
 > 🔐 Apenas o usuário `ADMIN` consegue acessar a tela `/admin`.
 
-🔗A API feita em Python que realiza a conversão dos arquivos em JSON padronizado está disponível neste repositório separado:
+🔗A API Python que realiza a conversão dos arquivos em JSON padronizado está disponível neste repositório separado:
 
 ➡️ [Conversor JSON](https://github.com/felipexxxxx/classup-python-converter)
 
