@@ -23,7 +23,7 @@ export default function useAdmin() {
       }
 
 
-      const jsonConvertido = await fetch("http://localhost:5000/usuarios_convertidos.json");
+      const jsonConvertido = await fetch("classup-python-converter-production.up.railway.app/usuarios_convertidos.json");
       const usuarios = await jsonConvertido.json();
 
       await importarUsuarios(usuarios);
