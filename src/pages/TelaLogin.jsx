@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import useAuth from "../hooks/useAuth";
 import ModalEnviarEmail from "../components/modals/ModalEnviarEmail";
 import ModalRedefinirSenha from "../components/modals/ModalRedefinirSenha";
+import { useNavigate } from "react-router-dom";  // Importando useNavigate para redirecionar
 
 export default function TelaLogin() {
   const [login, setLogin] = useState("");
@@ -11,12 +12,8 @@ export default function TelaLogin() {
   const [mostrarModalCodigo, setMostrarModalCodigo] = useState(false);
   const [emailParaRedefinir, setEmailParaRedefinir] = useState("");
 
-  const {
-    mensagem,
-    sucesso,
-    carregandoRedirect,
-    realizarLogin,
-  } = useAuth();
+  const { mensagem, sucesso, carregandoRedirect, realizarLogin } = useAuth();
+  const navigate = useNavigate();  // Definindo o hook para navegação
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -35,13 +32,18 @@ export default function TelaLogin() {
     <div className="min-h-screen flex">
       {/* esquerda */}
       <motion.div
-        className="w-1/2 bg-[#18163c] text-white flex items-center justify-center flex-col"
+        className="w-1/2 text-white flex items-center justify-center flex-col"
+        style={{
+          backgroundImage: `url('/src/assets/background.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="text-9xl font-bold text-indigo-300">ClassUP</h1>
-        <p className="text-3xl mt-4 text-gray-300">Facilitando o aprendizado😊</p>
+        <h1 className="text-9xl font-bold text-indigo-300" >ClassUP</h1>
+        <p className="text-3xl mt-4 text-gray-300"><strong>Facilitando o aprendizado😊</strong></p>
       </motion.div>
 
       {/* direita */}
