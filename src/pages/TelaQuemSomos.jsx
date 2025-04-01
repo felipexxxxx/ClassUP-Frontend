@@ -63,7 +63,7 @@ export default function TelaQuemSomos() {
           </div>
 
           <p className="mt-3 text-md text-gray-400">
-            Email para contato: <span className="text-indigo-300">contato@classup.com</span>
+            Email para contato: <span className="text-indigo-300">felipe.classup@gmail.com</span>
           </p>
         </motion.div>
       </main>
