@@ -57,17 +57,20 @@ ClassUP é uma aplicação web criada para escolas e faculdades gerenciarem turm
 Foi adicionada uma **tela exclusiva para administradores** com suporte à importação de usuários por arquivos `.csv`, `.json`, `.xlsx` e `.sql`. A interface permite:
 
 - Selecionar um arquivo diretamente no navegador
-- Executar o script Python (Flask) que converte o conteúdo em JSON padronizado
+- Executar a API Python (Flask) que converte o conteúdo em JSON padronizado
 - Enviar o JSON para o backend Java via API REST
 - Exibir feedback animado de sucesso ou erro, centralizado na interface
 
-> 🔐 Apenas usuários com `role = ADMIN` conseguem acessar a tela `/admin`.
+> 🔐 Apenas o usuário `ADMIN` consegue acessar a tela `/admin`.
 
-📦 O conversor Python utilizado para transformar arquivos em JSON está disponível em um repositório separado:
+🔗A API Python que realiza a conversão dos arquivos em JSON padronizado está disponível neste repositório separado:
 
-➡️ [classup-python-converter](https://github.com/felipexxxxx/classup-python-converter)
+➡️ [Conversor JSON](https://github.com/felipexxxxx/classup-python-converter)
 
-Essa API Flask pode ser hospedada, por exemplo, no Railway e utilizada em conjunto com o frontend.
+Esse microserviço Flask foi hospedada no Railway e utilizada em conjunto com o frontend.
+
+
+Acesse o repositório do Backend [aqui.](https://github.com/felipexxxxx/AgendaEdu-Backend)
 
 
 ## 🖼️ Interface da Aplicação
@@ -183,25 +186,6 @@ Essa API Flask pode ser hospedada, por exemplo, no Railway e utilizada em conjun
 
 ## 🛠️ Instalação Local
 
-### Backend
-```bash
-git clone https://github.com/seu-usuario/classup-backend.git
-cd classup-backend
-mvn clean install
-mvn spring-boot:run
-```
-
-Crie um banco de dados MySQL chamado `classup_db`. Edite o arquivo `application.properties` com suas configurações locais:
-
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/classup_db
-spring.datasource.username=root
-spring.datasource.password=sua_senha
-spring.mail.username=seu_email@gmail.com
-spring.mail.password=sua_senha_de_app
-API_SECURITY_TOKEN_SECRET=segredo_super_secreto
-```
-
 ### Frontend
 ```bash
 git clone https://github.com/seu-usuario/classup-frontend.git
@@ -212,7 +196,7 @@ npm run dev
 
 ## 🚢 Deploy
 
-- 🔧 **Backend + Banco de Dados**: [Railway](https://railway.app)
+- 🔧 **Backend + Banco de Dados + API de conversão JSON**: [Railway](https://railway.app)
 - 🌐 **Frontend**: [Netlify](https://classup-web.netlify.app/inicio)
 
 ## 📡 Endpoints da API (principais)
