@@ -31,7 +31,7 @@ export default function useAdmin() {
 
       await importarUsuarios(resultado.usuarios);
 
-      setMensagem("✅ Usuários importados com sucesso!");
+      setMensagem("Usuários importados com sucesso!");
       setSucesso(true);
     } catch (error) {
       console.error("Erro na importação:", error);
