@@ -3,7 +3,8 @@ import { motion } from "framer-motion";
 import useAuth from "../hooks/useAuth";
 import ModalEnviarEmail from "../components/modals/ModalEnviarEmail";
 import ModalRedefinirSenha from "../components/modals/ModalRedefinirSenha";
-import { useNavigate } from "react-router-dom";  // Importando useNavigate para redirecionar
+import imagemBackground from "../assets/background.png";
+import { useNavigate } from "react-router-dom"; 
 
 export default function TelaLogin() {
   const [login, setLogin] = useState("");
@@ -13,7 +14,7 @@ export default function TelaLogin() {
   const [emailParaRedefinir, setEmailParaRedefinir] = useState("");
 
   const { mensagem, sucesso, carregandoRedirect, realizarLogin } = useAuth();
-  const navigate = useNavigate();  // Definindo o hook para navegação
+  const navigate = useNavigate(); 
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -34,7 +35,7 @@ export default function TelaLogin() {
       <motion.div
         className="w-1/2 text-white flex items-center justify-center flex-col"
         style={{
-          backgroundImage: `url('/src/assets/background.png')`,
+          backgroundImage: `url(${imagemBackground})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
